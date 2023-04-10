@@ -1,23 +1,60 @@
 import 'package:flutter/material.dart';
-import 'login/login.dart';
+import 'home.dart';
 
 void main() {
   runApp(const Portal());
 }
 
-class Portal extends StatefulWidget {
+class Portal extends StatelessWidget {
   const Portal({super.key});
 
-  @override
-  State<Portal> createState() => _PortalState();
-}
-
-class _PortalState extends State<Portal> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: login(),
+      home: MyHome(),
     );
+  }
+}
+
+class MyHome extends StatefulWidget {
+  const MyHome({super.key});
+
+  @override
+  State<MyHome> createState() => _MyHomeState();
+}
+
+class _MyHomeState extends State<MyHome> {
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration(seconds: 10), () {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => Home()));
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        color: Colors.white,
+        child: Column(
+          children: [
+            SizedBox(
+              height: 80,
+            ),
+            FlutterLogo(size: MediaQuery.of(context).size.height * 0.6),
+            SizedBox(
+              height: 0,
+            ),
+            Text(
+              'Find a Tutor',
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                  color: Colors.black),
+            )
+          ],
+        ));
   }
 }
