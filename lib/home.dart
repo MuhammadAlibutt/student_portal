@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:student_portal/Teacher/techer_signin.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -7,26 +8,33 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Welcome on Board'),
+        title: const Text('Welcome on Board'),
       ),
-      body: Container(
+      body: Center(
         child: Column(children: [
-          Center(
+          const Center(
             child: Text('Kindly Select who you are'),
           ),
           IconButton(
             onPressed: () {},
-            icon: Icon(Icons.admin_panel_settings),
+            icon: const Icon(Icons.admin_panel_settings),
             tooltip: 'Admin',
           ),
           IconButton(
             onPressed: () {},
-            icon: Icon(Icons.person),
+            icon: const Icon(Icons.person),
             tooltip: 'Student',
           ),
           IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.person),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const TecherSignin(),
+                ),
+              );
+            },
+            icon: const Icon(Icons.person),
             tooltip: 'Teacher',
           )
         ]),

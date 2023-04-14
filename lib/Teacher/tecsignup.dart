@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:student_portal/Teacher/techer_signin.dart';
 
 class TeacherSignUp extends StatefulWidget {
   const TeacherSignUp({super.key});
@@ -11,7 +12,7 @@ class _TeacherSignUpState extends State<TeacherSignUp> {
   @override
   Widget build(BuildContext context) {
     final appbar = AppBar(
-      title: Text('Welcome Teacher'),
+      title: const Text('Welcome Teacher'),
       centerTitle: true,
     );
     return Scaffold(
@@ -21,57 +22,115 @@ class _TeacherSignUpState extends State<TeacherSignUp> {
                 MediaQuery.of(context).padding.left -
                 MediaQuery.of(context).padding.top) *
             0.7,
-        child: Column(children: [
-          SizedBox(
-            height: 5,
-          ),
-          Text(
-            'Sign Up',
-            style: TextStyle(
-                color: Colors.black, fontWeight: FontWeight.bold, fontSize: 15),
-          ),
-          TextFormField(
-            decoration: InputDecoration(
-              labelText: "First Name",
-            ),
-          ),
-          TextFormField(
-            decoration: InputDecoration(
-              labelText: "Last Name",
-            ),
-          ),
-          TextFormField(
-            decoration: InputDecoration(
-              labelText: "Email",
-            ),
-          ),
-          TextFormField(
-            decoration: InputDecoration(
-              labelText: "UserName",
-            ),
-          ),
-          TextFormField(
-            decoration: InputDecoration(
-              labelText: "Mobile Number",
-            ),
-          ),
-          SizedBox(
-            height: 9,
-          ),
-          ElevatedButton(onPressed: () {}, child: Text('Sign Up')),
-          Row(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
             children: [
-              Text('already have account!'),
-              TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    'Sign In',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, color: Colors.black),
-                  ))
+              const SizedBox(
+                height: 20,
+              ),
+              const Text(
+                'Sign Up',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              TextFormField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  labelText: "First Name",
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              TextFormField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  labelText: "Last Name",
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              TextFormField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  labelText: "Email",
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              TextFormField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  labelText: "UserName",
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              TextFormField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  labelText: "Password",
+                ),
+              ),
+
+              const SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                onPressed: () {},
+                child: const Text(
+                  'Sign Up',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('Already have account!'),
+                  TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const TecherSignin(),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                        'Sign In',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                            fontStyle: FontStyle.italic),
+                      ))
+                ],
+              ),
             ],
           ),
-        ]),
+        ),
       ),
       // bottomNavigationBar: BottomAppBar(
       //     child: Container(

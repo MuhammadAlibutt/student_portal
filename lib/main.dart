@@ -10,7 +10,7 @@ class Portal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: MyHome(),
     );
@@ -28,9 +28,9 @@ class _MyHomeState extends State<MyHome> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(seconds: 10), () {
+    Future.delayed(const Duration(seconds: 10), () {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => Home()));
+          context, MaterialPageRoute(builder: (context) => const Home()));
     });
   }
 
@@ -40,19 +40,21 @@ class _MyHomeState extends State<MyHome> {
         color: Colors.white,
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 80,
             ),
             FlutterLogo(size: MediaQuery.of(context).size.height * 0.6),
-            SizedBox(
-              height: 0,
+            const SizedBox(
+              height: 10,
             ),
-            Text(
-              'Find a Tutor',
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                  color: Colors.black),
+            const Center(
+              child: Text(
+                'Find a Tutor',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Colors.black),
+              ),
             )
           ],
         ));
