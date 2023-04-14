@@ -1,84 +1,76 @@
 import 'package:flutter/material.dart';
+import 'StudentLogin.dart';
 
-class login extends StatefulWidget {
-  const login({super.key});
+class Login extends StatefulWidget {
+  const Login({super.key});
 
   @override
-  State<login> createState() => _loginState();
+  State<Login> createState() => _LoginState();
 }
 
-class _loginState extends State<login> {
+class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     final appbar = AppBar(
-      title: Text('Welcome Students'),
+      title: const Text('Welcome Students'),
       centerTitle: true,
     );
     return Scaffold(
       appBar: appbar,
-      body: Container(
+      body: SizedBox(
         height: (MediaQuery.of(context).size.height -
                 MediaQuery.of(context).padding.left -
                 MediaQuery.of(context).padding.top) *
             0.7,
         child: Column(children: [
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
-          Text(
+          const Text(
             'Sign Up',
             style: TextStyle(
                 color: Colors.black, fontWeight: FontWeight.bold, fontSize: 15),
           ),
           TextFormField(
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               labelText: "First Name",
             ),
           ),
           TextFormField(
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               labelText: "Last Name",
             ),
           ),
           TextFormField(
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               labelText: "Email",
             ),
           ),
           TextFormField(
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               labelText: "UserName",
             ),
           ),
           TextFormField(
-            decoration: InputDecoration(
-              labelText: "Mobile Number",
+            decoration: const InputDecoration(
+              labelText: "Password",
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 9,
           ),
-          ElevatedButton(onPressed: () {}, child: Text('Sign Up')),
-          Row(
-            children: [
-              Text('already have account!'),
-              TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    'Sign In',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, color: Colors.black),
-                  ))
-            ],
-          ),
+          ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const StudentSignin(),
+                  ),
+                );
+              },
+              child: const Text('Sign Up')),
         ]),
       ),
-      // bottomNavigationBar: BottomAppBar(
-      //     child: Container(
-      //   height: MediaQuery.of(context).size.height * 0.1,
-      //   color: Colors.blue,
-      //   child:
-      // )),
     );
   }
 }

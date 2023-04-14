@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'Student/StudentLogin.dart';
+import 'Teacher/teclogin.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -26,11 +28,11 @@ class Home extends StatelessWidget {
               height: MediaQuery.of(context).size.height * 0.1,
             ),
             Container(
-              width: MediaQuery.of(context).size.width * 0.3,
+              width: MediaQuery.of(context).size.width * 0.4,
               child: ElevatedButton(
                 onPressed: () {},
                 child: Row(
-                  //mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(Icons.admin_panel_settings),
                     Text('Admin'),
@@ -41,10 +43,15 @@ class Home extends StatelessWidget {
             SizedBox(
               height: 8,
             ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.3,
+            Container(
+              width: MediaQuery.of(context).size.width * 0.4,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: ((context) => TecherSignin())),
+                  );
+                },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -57,10 +64,17 @@ class Home extends StatelessWidget {
             SizedBox(
               height: 8,
             ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.3,
+            Container(
+              width: MediaQuery.of(context).size.width * 0.4,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => StudentSignin(),
+                    ),
+                  );
+                },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

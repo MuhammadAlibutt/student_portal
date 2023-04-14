@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './teclogin.dart';
 
 class TeacherSignUp extends StatefulWidget {
   const TeacherSignUp({super.key});
@@ -58,7 +59,14 @@ class _TeacherSignUpState extends State<TeacherSignUp> {
           SizedBox(
             height: 9,
           ),
-          ElevatedButton(onPressed: () {}, child: Text('Sign Up')),
+          ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => TecherSignin()),
+                );
+              },
+              child: Text('Sign Up')),
           Row(
             children: [
               Text('already have account!'),
