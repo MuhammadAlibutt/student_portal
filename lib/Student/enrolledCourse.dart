@@ -13,7 +13,7 @@ class _EnrolledCoursesState extends State<EnrolledCourses> {
   myProject(pic, title, des, star) {
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.3,
-      width: MediaQuery.of(context).size.width * 0.8,
+      width: MediaQuery.of(context).size.width * 0.9,
       child: Card(
         color: ColorTheme.secondarycolor,
         child: Container(
@@ -91,11 +91,11 @@ class _EnrolledCoursesState extends State<EnrolledCourses> {
         ),
       ),
       centerTitle: true,
-      backgroundColor: Colors.transparent,
+      backgroundColor: ColorTheme.secondarycolor,
       elevation: 0,
     );
     return Scaffold(
-      backgroundColor: ColorTheme.primarycolor,
+      backgroundColor: ColorTheme.accentcolor,
       appBar: appbar,
       body: SingleChildScrollView(
         child: Container(

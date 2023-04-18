@@ -1,8 +1,11 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'home.dart';
 import 'Student/studenthome.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  Firebase.initializeApp();
   runApp(const Portal());
 }
 
@@ -11,7 +14,7 @@ class Portal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: MyHome(),
     );
@@ -29,11 +32,11 @@ class _MyHomeState extends State<MyHome> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(seconds: 1), () {
+    Future.delayed(const Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => Home(),
+          builder: (context) => const Home(),
         ),
       );
     });
@@ -41,27 +44,10 @@ class _MyHomeState extends State<MyHome> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-          color: Colors.white,
-          child: Column(
-            children: [
-              SizedBox(
-                height: 80,
-              ),
-              FlutterLogo(size: MediaQuery.of(context).size.height * 0.6),
-              SizedBox(
-                height: 0,
-              ),
-              Text(
-                'Find a Tutor',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    color: Colors.black),
-              )
-            ],
-          )),
+    return const Scaffold(
+      body: Center(
+        child: Image(image: AssetImage('assets/images/logo.jpg')),
+      ),
     );
   }
 }

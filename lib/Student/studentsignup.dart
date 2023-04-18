@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:student_portal/colorscheme.dart';
 import 'StudentLogin.dart';
 
 class Login extends StatefulWidget {
@@ -14,6 +15,7 @@ class _LoginState extends State<Login> {
     final appbar = AppBar(
       title: const Text('Welcome Students'),
       centerTitle: true,
+      backgroundColor: ColorTheme.secondarycolor,
     );
     return Scaffold(
       appBar: appbar,

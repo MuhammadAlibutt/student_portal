@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:student_portal/colorscheme.dart';
 import 'Student/StudentLogin.dart';
 import 'Teacher/teclogin.dart';
 
@@ -9,14 +11,21 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Find me Tutor!'),
+        title: const Text('Find me Tutor!'),
         centerTitle: true,
+        backgroundColor: ColorTheme.secondarycolor,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            SystemNavigator.pop();
+          },
+        ),
       ),
       body: Center(
-        child: Container(
+        child: SizedBox(
           height: MediaQuery.of(context).size.height * 0.6,
           child: Column(children: [
-            Text(
+            const Text(
               'Choose your Role',
               style: TextStyle(
                 fontSize: 30,
@@ -27,57 +36,64 @@ class Home extends StatelessWidget {
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.1,
             ),
-            Container(
+            SizedBox(
               width: MediaQuery.of(context).size.width * 0.4,
               child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: ColorTheme.secondarycolor),
                 onPressed: () {},
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: const [
                     Icon(Icons.admin_panel_settings),
                     Text('Admin'),
                   ],
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 8,
             ),
-            Container(
+            SizedBox(
               width: MediaQuery.of(context).size.width * 0.4,
               child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: ColorTheme.secondarycolor),
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: ((context) => TecherSignin())),
+                    MaterialPageRoute(
+                        builder: ((context) => const TecherSignin())),
                   );
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: const [
                     Icon(Icons.person),
                     Text('Teacher'),
                   ],
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 8,
             ),
-            Container(
+            SizedBox(
               width: MediaQuery.of(context).size.width * 0.4,
               child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: ColorTheme.secondarycolor),
                 onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => StudentSignin(),
+                      builder: (context) => const StudentSignin(),
                     ),
                   );
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: const [
                     Icon(Icons.person),
                     Text('Student'),
                   ],
