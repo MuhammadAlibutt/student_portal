@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:student_portal/colorscheme.dart';
 import 'package:student_portal/home.dart';
 import 'teacherlist.dart';
 import 'enrolledCourse.dart';
 import 'category.dart';
+import 'notification.dart';
+import 'account.dart';
 
 class StudentHome extends StatefulWidget {
   const StudentHome({super.key});
@@ -46,7 +49,14 @@ class _StudentHomeState extends State<StudentHome> {
                 PopupMenuItem(
                   value: 2,
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: ((context) => const Notificationscreen()),
+                        ),
+                      );
+                    },
                     child: const Text(
                       'Notification',
                       style: TextStyle(color: Colors.black),
@@ -56,7 +66,12 @@ class _StudentHomeState extends State<StudentHome> {
                 PopupMenuItem(
                   value: 3,
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: ((context) => const StudentAccount())));
+                    },
                     child: const Text(
                       'Account',
                       style: TextStyle(color: Colors.black),
@@ -84,7 +99,7 @@ class _StudentHomeState extends State<StudentHome> {
                   child: TextButton(
                     onPressed: () {},
                     child: const Text(
-                      'About App',
+                      'Chat',
                       style: TextStyle(color: Colors.black),
                     ),
                   ),
@@ -93,7 +108,7 @@ class _StudentHomeState extends State<StudentHome> {
                   value: 6,
                   child: TextButton(
                     onPressed: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(builder: (context) => const Home()),
                       );
@@ -112,65 +127,66 @@ class _StudentHomeState extends State<StudentHome> {
         children: [
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.4,
-            child: const Image(
+            child: Image(
               image: AssetImage('assets/images/home.png'),
             ),
           ),
-          Container(
-            width: double.infinity,
-            height: MediaQuery.of(context).size.height * 0.6 -
-                appbar.preferredSize.height,
-            decoration: BoxDecoration(
-              color: Colors.blue[500],
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(25),
-                topRight: Radius.circular(25),
+          Expanded(
+            child: Container(
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height * 0.5,
+              decoration: BoxDecoration(
+                color: ColorTheme.secondarycolor,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(25),
+                  topRight: Radius.circular(25),
+                ),
               ),
-            ),
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 80,
-                ),
-                const Text(
-                  'Let Start your New Jounary',
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      fontStyle: FontStyle.italic),
-                ),
-                const SizedBox(height: 20),
-                const CategoryList(),
-                const SizedBox(
-                  height: 10,
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.7,
-                  height: MediaQuery.of(context).size.height * 0.1,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: ((context) => const TeacherList()),
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 80,
+                  ),
+                  const Text(
+                    'Let Start your New Jounary',
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: ColorTheme.primarycolor,
+                        fontStyle: FontStyle.italic),
+                  ),
+                  const SizedBox(height: 20),
+                  const CategoryList(),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.7,
+                    height: MediaQuery.of(context).size.height * 0.1,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: ((context) => const TeacherList()),
+                          ),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25),
                         ),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25),
+                      ),
+                      child: const Text(
+                        'Find Tutor',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.black),
                       ),
                     ),
-                    child: const Text(
-                      'Find Tutor',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.black),
-                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],

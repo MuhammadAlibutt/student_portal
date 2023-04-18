@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'studentsignup.dart';
 import 'studenthome.dart';
+import '../colorscheme.dart';
 
 class StudentSignin extends StatefulWidget {
   const StudentSignin({super.key});
@@ -16,6 +17,7 @@ class _StudentSigninState extends State<StudentSignin> {
       appBar: AppBar(
         title: const Text('Welcome Back!'),
         centerTitle: true,
+        backgroundColor: ColorTheme.secondarycolor,
       ),
       body: SizedBox(
         height: (MediaQuery.of(context).size.height -

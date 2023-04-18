@@ -9,6 +9,8 @@ class TeacherSignUp extends StatefulWidget {
 }
 
 class _TeacherSignUpState extends State<TeacherSignUp> {
+  TextEditingController _email = TextEditingController();
+  TextEditingController _password = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final appbar = AppBar(
@@ -42,13 +44,15 @@ class _TeacherSignUpState extends State<TeacherSignUp> {
             ),
           ),
           TextFormField(
+            controller: _email,
             decoration: InputDecoration(
               labelText: "Email",
             ),
           ),
           TextFormField(
+            controller: _password,
             decoration: InputDecoration(
-              labelText: "UserName",
+              labelText: "Password",
             ),
           ),
           TextFormField(

@@ -17,7 +17,7 @@ class _TimeTabelState extends State<TimeTabel> {
             Text(
               date,
               style: const TextStyle(
-                  color: Colors.white,
+                  color: ColorTheme.primarycolor,
                   fontFamily: "hinid",
                   fontStyle: FontStyle.italic,
                   fontWeight: FontWeight.bold,
@@ -41,7 +41,7 @@ class _TimeTabelState extends State<TimeTabel> {
                     Text(
                       day,
                       style: const TextStyle(
-                          color: ColorTheme.accentcolor,
+                          color: ColorTheme.primarycolor,
                           fontWeight: FontWeight.w200),
                     ),
                     const SizedBox(
@@ -49,7 +49,7 @@ class _TimeTabelState extends State<TimeTabel> {
                     ),
                     Text(
                       "(" + time + ")",
-                      style: const TextStyle(color: ColorTheme.accentcolor),
+                      style: const TextStyle(color: ColorTheme.primarycolor),
                     ),
                   ],
                 ),
@@ -58,7 +58,7 @@ class _TimeTabelState extends State<TimeTabel> {
                   child: const Text(
                     'Zoom Meeting Link',
                     style: TextStyle(
-                      color: ColorTheme.accentcolor,
+                      color: ColorTheme.primarycolor,
                     ),
                   ),
                 )
@@ -73,17 +73,20 @@ class _TimeTabelState extends State<TimeTabel> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: ColorTheme.primarycolor,
+        backgroundColor: ColorTheme.accentcolor,
         appBar: AppBar(
-          backgroundColor: Colors.transparent,
+          backgroundColor: ColorTheme.secondarycolor,
           elevation: 0,
         ),
         body: Column(
           children: [
+            const SizedBox(
+              height: 20,
+            ),
             const Text(
               'Your Classes Schedule',
               style: TextStyle(
-                  color: ColorTheme.accentcolor,
+                  color: ColorTheme.primarycolor,
                   fontStyle: FontStyle.italic,
                   fontSize: 24,
                   fontWeight: FontWeight.w400),
