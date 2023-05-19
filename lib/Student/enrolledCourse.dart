@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../colorscheme.dart';
 import 'coursedetail.dart';
+import 'studenthome.dart';
 
 class EnrolledCourses extends StatefulWidget {
   const EnrolledCourses({super.key});
@@ -15,7 +16,7 @@ class _EnrolledCoursesState extends State<EnrolledCourses> {
       height: MediaQuery.of(context).size.height * 0.3,
       width: MediaQuery.of(context).size.width * 0.9,
       child: Card(
-        color: ColorTheme.secondarycolor,
+        color: ColorTheme.appcolor,
         child: Container(
           margin: const EdgeInsets.only(left: 20, top: 50, right: 10),
           child:
@@ -87,12 +88,24 @@ class _EnrolledCoursesState extends State<EnrolledCourses> {
       title: const Text(
         'Enrolled Courses',
         style: TextStyle(
-          fontStyle: FontStyle.italic,
-        ),
+            fontStyle: FontStyle.italic, color: ColorTheme.accentcolor),
       ),
       centerTitle: true,
-      backgroundColor: ColorTheme.secondarycolor,
+      backgroundColor: ColorTheme.appcolor,
       elevation: 0,
+      leading: IconButton(
+        icon: const Icon(
+          Icons.arrow_back,
+          color: ColorTheme.accentcolor,
+        ),
+        onPressed: () {
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: ((context) => const StudentHome()),
+              ));
+        },
+      ),
     );
     return Scaffold(
       backgroundColor: ColorTheme.accentcolor,

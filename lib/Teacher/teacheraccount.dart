@@ -1,17 +1,19 @@
 import 'dart:io';
-import 'studenthome.dart';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import '../colorscheme.dart';
 import 'package:image_picker/image_picker.dart';
+import 'teachercourse.dart';
 
-class StudentAccount extends StatefulWidget {
-  const StudentAccount({Key? key}) : super(key: key);
+class TeacherAccount extends StatefulWidget {
+  const TeacherAccount({Key? key}) : super(key: key);
 
   @override
-  State<StudentAccount> createState() => _StudentAccountState();
+  State<TeacherAccount> createState() => _TeacherAccountState();
 }
 
-class _StudentAccountState extends State<StudentAccount> {
+class _TeacherAccountState extends State<TeacherAccount> {
   File? _imageFile;
   String _email = 'ali@gmail.com';
   String _username = 'alibutt5344';
@@ -86,7 +88,7 @@ class _StudentAccountState extends State<StudentAccount> {
             Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: ((context) => const StudentHome()),
+                  builder: ((context) => const TechHome()),
                 ));
           },
         ),
@@ -100,8 +102,9 @@ class _StudentAccountState extends State<StudentAccount> {
             height: MediaQuery.of(context).size.height * 0.9,
             width: MediaQuery.of(context).size.width * 0.9,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
-                color: ColorTheme.secondarycolor),
+              borderRadius: BorderRadius.circular(30),
+              color: ColorTheme.secondarycolor,
+            ),
             child: Column(children: [
               const SizedBox(
                 height: 10,
@@ -272,26 +275,22 @@ class _StudentAccountState extends State<StudentAccount> {
               const SizedBox(
                 height: 10,
               ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.3,
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: ColorTheme.appcolor),
-                    onPressed: () {
-                      setState(() {
-                        _selectImage();
-                        _email = _emailController.text;
-                        _username = _usernameController.text;
-                        _password = _passwordController.text;
-                      });
-                      _showSnackBar('credntial have been updated');
-                    },
-                    child: const Text(
-                      'Save',
-                      style: TextStyle(
-                          color: ColorTheme.accentcolor, fontSize: 16),
-                    )),
-              ),
+              ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: ColorTheme.appcolor),
+                  onPressed: () {
+                    setState(() {
+                      _selectImage();
+                      _email = _emailController.text;
+                      _username = _usernameController.text;
+                      _password = _passwordController.text;
+                    });
+                    _showSnackBar('credntial have been updated');
+                  },
+                  child: const Text(
+                    'Save',
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  )),
             ]),
           ),
         ),
