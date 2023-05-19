@@ -24,14 +24,14 @@ class _CartState extends State<Cart> {
               width: 10,
             ),
             Column(
-              children: [
+              children: const [
                 Text(
                   'Sir Name',
-                  style: TextStyle(color: Colors.white, fontSize: 25),
+                  style: TextStyle(color: Colors.black, fontSize: 25),
                 ),
                 Text(
                   'Mobile Application Developer',
-                  style: TextStyle(color: Colors.white, fontSize: 10),
+                  style: TextStyle(color: Colors.black, fontSize: 10),
                 ),
               ],
             ),
@@ -39,7 +39,12 @@ class _CartState extends State<Cart> {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.2,
           ),
-          ElevatedButton(onPressed: () {}, child: Text("Pay Now")),
+          ElevatedButton(
+              onPressed: () {},
+              child: const Text(
+                "Pay Now",
+                style: TextStyle(fontSize: 16),
+              )),
         ],
       ),
     );
@@ -48,7 +53,7 @@ class _CartState extends State<Cart> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorTheme.primarycolor,
+      backgroundColor: ColorTheme.accentcolor,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -56,10 +61,10 @@ class _CartState extends State<Cart> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             'One Step Away!',
             style: TextStyle(
-                color: Colors.white, fontSize: 20, fontStyle: FontStyle.italic),
+                color: Colors.black, fontSize: 20, fontStyle: FontStyle.italic),
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.1,

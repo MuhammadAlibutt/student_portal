@@ -11,11 +11,17 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Find me Tutor!'),
+        title: const Text(
+          'Find Tutor!',
+          style: TextStyle(color: ColorTheme.accentcolor),
+        ),
         centerTitle: true,
-        backgroundColor: ColorTheme.secondarycolor,
+        backgroundColor: ColorTheme.appcolor,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(
+            Icons.arrow_back,
+            color: ColorTheme.accentcolor,
+          ),
           onPressed: () {
             SystemNavigator.pop();
           },
@@ -28,7 +34,7 @@ class Home extends StatelessWidget {
             const Text(
               'Choose your Role',
               style: TextStyle(
-                fontSize: 30,
+                fontSize: 28,
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
               ),
@@ -40,7 +46,7 @@ class Home extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.4,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: ColorTheme.secondarycolor),
+                    backgroundColor: ColorTheme.appcolor),
                 onPressed: () {},
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -58,7 +64,7 @@ class Home extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.4,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: ColorTheme.secondarycolor),
+                    backgroundColor: ColorTheme.appcolor),
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -82,7 +88,7 @@ class Home extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.4,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: ColorTheme.secondarycolor),
+                    backgroundColor: ColorTheme.appcolor),
                 onPressed: () {
                   Navigator.push(
                     context,
