@@ -1,6 +1,100 @@
+// import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:flutter/material.dart';
+// import 'package:student_portal/Teacher/chat.dart';
+
+// class TutorChatScreen extends StatefulWidget {
+//   String name;
+//   TutorChatScreen({required this.name});
+//   @override
+//   _TutorChatScreenState createState() => _TutorChatScreenState(name: name);
+// }
+
+// class _TutorChatScreenState extends State<TutorChatScreen> {
+//   String name;
+//   _TutorChatScreenState({required this.name});
+
+//   final fs = FirebaseFirestore.instance;
+//   final currentUser = FirebaseAuth.instance.currentUser;
+//   final TextEditingController message = TextEditingController();
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text(
+//           'User',
+//         ),
+//       ),
+//       body: SingleChildScrollView(
+//         child: Column(
+//           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//           crossAxisAlignment: CrossAxisAlignment.stretch,
+//           children: [
+//             SizedBox(
+//               height: MediaQuery.of(context).size.height * 0.83,
+//               child: messages(
+//                 name: name,
+//               ),
+//             ),
+//             Row(
+//               children: [
+//                 Expanded(
+//                   child: TextFormField(
+//                     controller: message,
+//                     decoration: InputDecoration(
+//                       filled: true,
+//                       fillColor: Colors.blue[400],
+//                       hintText: 'message',
+//                       enabled: true,
+//                       contentPadding: const EdgeInsets.only(
+//                           left: 14.0, bottom: 8.0, top: 8.0),
+//                       focusedBorder: OutlineInputBorder(
+//                         borderSide: const BorderSide(color: Colors.black),
+//                         borderRadius: BorderRadius.circular(10),
+//                       ),
+//                       enabledBorder: UnderlineInputBorder(
+//                         borderSide: const BorderSide(color: Colors.purple),
+//                         borderRadius: BorderRadius.circular(10),
+//                       ),
+//                     ),
+//                     validator: (value) {},
+//                     onSaved: (value) {
+//                       message.text = value!;
+//                     },
+//                   ),
+//                 ),
+//                 IconButton(
+//                   onPressed: () {
+//                     if (message.text.isNotEmpty) {
+//                       fs
+//                           .collection('TeachersDetails')
+//                           .doc(currentUser!.uid)
+//                           .collection('Chat')
+//                           .doc(currentUser!.uid)
+//                           .set({
+//                         'message': message.text.trim(),
+//                         'time': DateTime.now(),
+//                         'name': name,
+//                       });
+//                       print(message);
+//                       message.clear();
+//                     }
+//                   },
+//                   icon: const Icon(Icons.send_sharp),
+//                 ),
+//               ],
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:student_portal/Teacher/page/call.dart';
+// import 'package:student_portal/Teacher/page/call.dart';
 
 class TutorChatScreen extends StatefulWidget {
   const TutorChatScreen({super.key});
@@ -55,7 +149,7 @@ class _TutorChatScreenState extends State<TutorChatScreen> {
             child: ListView.builder(
               itemCount: _messages.length,
               itemBuilder: (context, index) {
-                final message = _messages[index];
+                //  final message = _messages[index];
                 return Padding(
                   padding: const EdgeInsets.symmetric(
                     vertical: 4.0,
