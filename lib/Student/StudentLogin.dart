@@ -74,7 +74,7 @@ class _StudentSigninState extends State<StudentSignin> {
                     ),
                     labelText: "Email",
                     prefixIcon: const Icon(
-                      Icons.person_2,
+                      Icons.person,
                       color: Colors.black87,
                     ),
                   ),

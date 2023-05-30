@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:student_portal/Teacher/teacher_schedule.dart';
 import 'package:student_portal/colorscheme.dart';
 import 'teachercourse.dart';
 
@@ -211,6 +212,10 @@ class _TeacherDetailState extends State<TeacherDetail> {
               ),
               onPressed: () {
                 firebasecourse();
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const TeacherSchedule()));
               },
               child: const Text(
                 'Save Profile',
