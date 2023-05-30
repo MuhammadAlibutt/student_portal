@@ -11,11 +11,17 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Find me Tutor!'),
+        title: const Text(
+          'Find Tutor!',
+          style: TextStyle(color: ColorTheme.primarycolor),
+        ),
         centerTitle: true,
         backgroundColor: ColorTheme.secondarycolor,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(
+            Icons.arrow_back,
+            color: ColorTheme.primarycolor,
+          ),
           onPressed: () {
             SystemNavigator.pop();
           },

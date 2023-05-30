@@ -1,81 +1,139 @@
 import 'package:flutter/material.dart';
+import '../colorscheme.dart';
 
-class TechHome extends StatefulWidget {
-  const TechHome({Key? key}) : super(key: key);
+class TeacherHome extends StatefulWidget {
+  const TeacherHome({super.key});
 
   @override
-  State<TechHome> createState() => _TechHomeState();
+  State<TeacherHome> createState() => _TeacherHomeState();
 }
 
-class _TechHomeState extends State<TechHome> {
-  List<DropdownMenuItem<String>> get course {
-    return [
-      const DropdownMenuItem(
-        value: '1',
-        child: Text('Math'),
+class _TeacherHomeState extends State<TeacherHome> {
+  MyProject(pic, title, des, star) {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.4,
+      width: MediaQuery.of(context).size.width * 0.9,
+      child: Card(
+        color: Colors.black26,
+        // color: const Color.fromARGB(255, 16, 66, 215),
+        child: Container(
+          margin: const EdgeInsets.only(left: 20, top: 50, right: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  CircleAvatar(
+                    backgroundImage: AssetImage(pic),
+                    radius: 50,
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Column(
+                    children: [
+                      Text(
+                        title,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        des,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    star,
+                    style: const TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.w400),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                children: const [
+                  Text(
+                    'Price:',
+                    style: TextStyle(fontSize: 18, color: Colors.white),
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    '\$100',
+                    style: TextStyle(fontSize: 18, color: Colors.white),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
       ),
-      const DropdownMenuItem(
-        value: '2',
-        child: Text('English'),
-      ),
-      const DropdownMenuItem(
-        value: '3',
-        child: Text('Computer Science'),
-      ),
-      const DropdownMenuItem(
-        value: '4',
-        child: Text('Email Marketing'),
-      ),
-      const DropdownMenuItem(
-        value: '5',
-        child: Text('Art/Designing'),
-      ),
-      const DropdownMenuItem(
-        value: '6',
-        child: Text('Web Development'),
-      ),
-      const DropdownMenuItem(
-        value: '7',
-        child: Text('Business Administration'),
-      ),
-    ];
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Welcome'),
+        title: Text(
+          "Course Detail",
+          style: TextStyle(color: ColorTheme.primarycolor),
+        ),
+        backgroundColor: Colors.black26,
+        //leading: PopupMenu(),
+        centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 100),
-        child: SafeArea(
+      body: SingleChildScrollView(
+        child: Container(
+          alignment: Alignment.center,
           child: Column(
+            // mainAxisAlignment: MainAxisAlignment.start,
+            // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Select your Course!',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              MyProject(
+                'assets/images/pic.jpg',
+                'Muhammad Ali',
+                'Course Selected',
+                'A mobile developer is a skilled professional \nwho designs, develops, tests, and deploys\nmobile applications for platforms such as iOS,\nAndroid, and cross-platform frameworks.',
               ),
-              const SizedBox(
-                height: 40,
+              MyProject(
+                'assets/images/pic.jpg',
+                'Asher Ali',
+                'Course Selected',
+                'A mobile developer is a skilled professional \nwho designs, develops, tests, and deploys\nmobile applications for platforms such as iOS,\nAndroid, and cross-platform frameworks.',
               ),
-              DropdownButtonFormField(
-                items: course,
-                onChanged: (String? value) {
-                  //print(course);
-                },
-                decoration: InputDecoration(
-                  prefixIcon: const Icon(
-                    Icons.school_outlined,
-                    color: Colors.black,
-                  ),
-                  hintText: 'Select your Course',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  filled: true,
-                  fillColor: Colors.white,
-                ),
+              MyProject(
+                'assets/images/pic.jpg',
+                'Usman Sajid',
+                'Course Selected',
+                'A mobile developer is a skilled professional \nwho designs, develops, tests, and deploys\nmobile applications for platforms such as iOS,\nAndroid, and cross-platform frameworks',
+              ),
+              MyProject(
+                'assets/images/pic.jpg',
+                'Sheraz Hassan',
+                'Course Selected',
+                'A mobile developer is a skilled professional \nwho designs, develops, tests, and deploys\nmobile applications for platforms such as iOS,\nAndroid, and cross-platform frameworks',
               ),
             ],
           ),

@@ -1,11 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:student_portal/colorscheme.dart';
 import 'package:student_portal/home.dart';
+import '../chat module/chatmodule.dart';
 import 'teacherlist.dart';
 import 'enrolledCourse.dart';
 import 'category.dart';
 import 'notification.dart';
 import 'account.dart';
+import 'video call/videocall.dart';
 
 class StudentHome extends StatefulWidget {
   const StudentHome({super.key});
@@ -97,7 +100,12 @@ class _StudentHomeState extends State<StudentHome> {
                 PopupMenuItem(
                   value: 5,
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Chat()));
+                    },
                     child: const Text(
                       'Chat',
                       style: TextStyle(color: Colors.black),
@@ -108,10 +116,12 @@ class _StudentHomeState extends State<StudentHome> {
                   value: 6,
                   child: TextButton(
                     onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => const Home()),
-                      );
+                      FirebaseAuth.instance.signOut().then((value) {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => const Home()),
+                        );
+                      });
                     },
                     child: const Text(
                       'logout',
@@ -123,73 +133,87 @@ class _StudentHomeState extends State<StudentHome> {
     );
     return Scaffold(
       appBar: appbar,
-      body: Column(
-        children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.4,
-            child: Image(
-              image: AssetImage('assets/images/home.png'),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              width: double.infinity,
-              height: MediaQuery.of(context).size.height * 0.5,
-              decoration: BoxDecoration(
-                color: ColorTheme.secondarycolor,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(25),
-                  topRight: Radius.circular(25),
+      body: SizedBox(
+        height: MediaQuery.of(context).size.height,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.4,
+                child: const Image(
+                  image: AssetImage('assets/images/home.png'),
                 ),
               ),
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 80,
+              Container(
+                width: double.infinity,
+                height: MediaQuery.of(context).size.height * 0.5,
+                decoration: const BoxDecoration(
+                  color: ColorTheme.secondarycolor,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(25),
+                    topRight: Radius.circular(25),
                   ),
-                  const Text(
-                    'Let Start your New Jounary',
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: ColorTheme.primarycolor,
-                        fontStyle: FontStyle.italic),
-                  ),
-                  const SizedBox(height: 20),
-                  const CategoryList(),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.7,
-                    height: MediaQuery.of(context).size.height * 0.1,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: ((context) => const TeacherList()),
+                ),
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 80,
+                    ),
+                    const Text(
+                      'Let Start your New Jounary',
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: ColorTheme.primarycolor,
+                          fontStyle: FontStyle.italic),
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    const CategoryList(),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.7,
+                      height: MediaQuery.of(context).size.height * 0.1,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: ((context) => const TeacherList()),
+                            ),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25),
                           ),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        child: const Text(
+                          'Find Tutor',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.black),
                         ),
                       ),
-                      child: const Text(
-                        'Find Tutor',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.black),
-                      ),
                     ),
-                  ),
-                ],
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: ((context) => const VideoCall())));
+                      },
+                      child: const Text('Video Call Text'),
+                    ),
+                  ],
+                ),
               ),
-            ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

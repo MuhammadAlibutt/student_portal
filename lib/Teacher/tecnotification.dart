@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import '../colorscheme.dart';
-import 'studenthome.dart';
+import 'teachercourse.dart';
 
-class Notificationscreen extends StatefulWidget {
-  const Notificationscreen({super.key});
+class techNotification extends StatefulWidget {
+  const techNotification({super.key});
 
   @override
-  State<Notificationscreen> createState() => _NotificationscreenState();
+  State<techNotification> createState() => _techNotificationState();
 }
 
-class _NotificationscreenState extends State<Notificationscreen> {
+class _techNotificationState extends State<techNotification> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +29,7 @@ class _NotificationscreenState extends State<Notificationscreen> {
               Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: ((context) => const StudentHome()),
+                    builder: ((context) => const TechHome()),
                   ));
             },
           ),
