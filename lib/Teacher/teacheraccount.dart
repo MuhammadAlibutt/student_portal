@@ -102,9 +102,8 @@ class _TeacherAccountState extends State<TeacherAccount> {
             height: MediaQuery.of(context).size.height * 0.9,
             width: MediaQuery.of(context).size.width * 0.9,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30),
-              color: ColorTheme.secondarycolor,
-            ),
+                borderRadius: BorderRadius.circular(30),
+                color: ColorTheme.secondarycolor),
             child: Column(children: [
               const SizedBox(
                 height: 10,
@@ -277,7 +276,7 @@ class _TeacherAccountState extends State<TeacherAccount> {
               ),
               ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: ColorTheme.appcolor),
+                      backgroundColor: ColorTheme.secondarycolor),
                   onPressed: () {
                     setState(() {
                       _selectImage();
@@ -289,7 +288,7 @@ class _TeacherAccountState extends State<TeacherAccount> {
                   },
                   child: const Text(
                     'Save',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
+                    style: TextStyle(color: Colors.black),
                   )),
             ]),
           ),

@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:student_portal/colorscheme.dart';
 import 'teacherdetail.dart';
 import 'popmenu.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class TechHome extends StatefulWidget {
   const TechHome({Key? key}) : super(key: key);
@@ -13,7 +15,6 @@ class TechHome extends StatefulWidget {
 }
 
 class _TechHomeState extends State<TechHome> {
-  String? selectedCourse;
   List<DropdownMenuItem<String>> get course {
     return [
       const DropdownMenuItem(
@@ -47,60 +48,19 @@ class _TechHomeState extends State<TechHome> {
     ];
   }
 
-  void _saveCourseData(String? course) {
-    final courseNames = {
-      '1': 'Math',
-      '2': 'English',
-      '3': 'Computer Science',
-      '4': 'Email Marketing',
-      '5': 'Art/Designing',
-      '6': 'Web Development',
-      '7': 'Business Administration',
-    };
-    // Get the currently logged-in user
-    final currentUser = FirebaseAuth.instance.currentUser;
-    if (currentUser == null) {
-      print('No user logged in');
-      return;
-    }
-
-    // Create a new document reference in the 'TeachersDetails' collection
-    final teacherDetailsDocRef = FirebaseFirestore.instance
-        .collection('TeachersDetails')
-        .doc(currentUser.uid);
-
-    // Set the data for the teacher details document
-    teacherDetailsDocRef.set({'course': courseNames[course]}).then((_) {
-      print('Selected course saved to Firestore successfully');
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => TeacherDetail(
-            courseName: courseNames[course],
-          ),
-        ),
-      );
-      // setState(() {
-      //   selectedCourse = course;
-      // });
-    }).catchError((error) {
-      print('Error saving selected course: $error');
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: ColorTheme.appcolor,
+        backgroundColor: ColorTheme.secondarycolor,
         title: const Text(
           'Welcome',
-          style: TextStyle(color: ColorTheme.accentcolor),
+          style: TextStyle(color: ColorTheme.primarycolor),
         ),
         centerTitle: true,
         leading: PopupMenu(),
       ),
-      body: SizedBox(
+      body: Container(
         height: MediaQuery.of(context).size.height,
         child: SingleChildScrollView(
           child: Padding(
@@ -116,12 +76,9 @@ class _TechHomeState extends State<TechHome> {
                     height: 40,
                   ),
                   DropdownButtonFormField(
-                    value: selectedCourse,
                     items: course,
                     onChanged: (String? value) {
-                      if (value != null) {
-                        _saveCourseData(value);
-                      }
+                      //print(course);
                     },
                     decoration: InputDecoration(
                       prefixIcon: const Icon(
@@ -144,29 +101,26 @@ class _TechHomeState extends State<TechHome> {
                     height: MediaQuery.of(context).size.height * 0.08,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue,
+                        backgroundColor: Colors.white,
                         shadowColor: Colors.black,
                         elevation: 10,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(25),
                         ),
                       ),
-                      onPressed: selectedCourse != null
-                          ? () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      TeacherDetail(courseName: selectedCourse),
-                                ),
-                              );
-                            }
-                          : null,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const TeacherDetail(),
+                          ),
+                        );
+                      },
                       child: const Text(
                         'Get Started!',
                         style: TextStyle(
                             fontSize: 22,
-                            color: Colors.white,
+                            color: Colors.black,
                             fontStyle: FontStyle.italic,
                             fontWeight: FontWeight.w600),
                       ),
