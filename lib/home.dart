@@ -13,14 +13,14 @@ class Home extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           'Find Tutor!',
-          style: TextStyle(color: ColorTheme.accentcolor),
+          style: TextStyle(color: ColorTheme.primarycolor),
         ),
         centerTitle: true,
-        backgroundColor: ColorTheme.appcolor,
+        backgroundColor: ColorTheme.secondarycolor,
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back,
-            color: ColorTheme.accentcolor,
+            color: ColorTheme.primarycolor,
           ),
           onPressed: () {
             SystemNavigator.pop();
@@ -46,7 +46,7 @@ class Home extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.4,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: ColorTheme.appcolor),
+                    backgroundColor: ColorTheme.secondarycolor),
                 onPressed: () {},
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -64,7 +64,7 @@ class Home extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.4,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: ColorTheme.appcolor),
+                    backgroundColor: ColorTheme.secondarycolor),
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -88,7 +88,7 @@ class Home extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.4,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: ColorTheme.appcolor),
+                    backgroundColor: ColorTheme.secondarycolor),
                 onPressed: () {
                   Navigator.push(
                     context,

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:student_portal/colorscheme.dart';
@@ -39,16 +40,42 @@ class _TeacherDetailState extends State<TeacherDetail> {
     String course = _course.text;
     String dec = _dec.text;
     String price = _price.text;
-    FirebaseFirestore.instance.collection('Course').add({
-      'course': course,
-      'Description': dec,
-      'price': price,
-    }).then((value) {
-      _showSnackBar("Course Added Thank you :)");
-      _course.clear();
-      _dec.clear();
-      _price.clear();
-    });
+
+    if (selectedImage == null) {
+      _showSnackBar('Please Select An Image');
+      return;
+    }
+    String? imageUrl = await uploadImage(selectedImage!);
+
+    if (imageUrl != null) {
+      await FirebaseFirestore.instance.collection('Course').add({
+        'course': course,
+        'Description': dec,
+        'price': price,
+        'image': imageUrl,
+      }).then((value) {
+        _showSnackBar("Course Added Thank you :)");
+        _course.clear();
+        _dec.clear();
+        _price.clear();
+        setState(() {
+          selectedImage = null;
+        });
+      });
+    } else {
+      print('false');
+    }
+  }
+
+  Future<String?> uploadImage(File image) async {
+    TaskSnapshot taskSnapshot = await FirebaseStorage.instance
+        .ref()
+        .child('Course_logo')
+        .child(image.path.split('/').last)
+        .putFile(image);
+
+    String downloadUrl = await taskSnapshot.ref.getDownloadURL();
+    return downloadUrl;
   }
 
   void _showSnackBar(String message) {
@@ -64,7 +91,10 @@ class _TeacherDetailState extends State<TeacherDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: null,
+        title: const Text(
+          'Enter Your Course Details',
+          style: TextStyle(color: ColorTheme.primarycolor),
+        ),
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back,
@@ -76,7 +106,7 @@ class _TeacherDetailState extends State<TeacherDetail> {
           },
         ),
         elevation: 0,
-        backgroundColor: Colors.transparent,
+        backgroundColor: ColorTheme.secondarycolor,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -100,16 +130,19 @@ class _TeacherDetailState extends State<TeacherDetail> {
               ),
             ),
             const SizedBox(
-              height: 20,
+              height: 5,
             ),
             ElevatedButton(
-              // style: ElevatedButton.styleFrom(
-              //   backgroundColor: Colors.black,
-              // ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: ColorTheme.secondarycolor,
+              ),
               onPressed: () {
                 chooseimage();
               },
-              child: const Text('Select Profile'),
+              child: const Text(
+                'Select Profile',
+                style: TextStyle(color: ColorTheme.primarycolor),
+              ),
             ),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.03,
@@ -174,16 +207,14 @@ class _TeacherDetailState extends State<TeacherDetail> {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blueAccent,
+                backgroundColor: ColorTheme.secondarycolor,
               ),
               onPressed: () {
                 firebasecourse();
               },
               child: const Text(
                 'Save Profile',
-                // style: TextStyle(
-                //   fontSize: 18,
-                // ),
+                style: TextStyle(color: ColorTheme.primarycolor),
               ),
             ),
           ],

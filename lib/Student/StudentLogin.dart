@@ -25,14 +25,14 @@ class _StudentSigninState extends State<StudentSignin> {
       appBar: AppBar(
         title: const Text(
           'Welcome Back!',
-          style: TextStyle(color: ColorTheme.accentcolor),
+          style: TextStyle(color: ColorTheme.primarycolor),
         ),
         centerTitle: true,
-        backgroundColor: ColorTheme.appcolor,
+        backgroundColor: ColorTheme.secondarycolor,
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back,
-            color: ColorTheme.accentcolor,
+            color: ColorTheme.primarycolor,
           ),
           onPressed: () {
             Navigator.pushReplacement(context,
@@ -40,135 +40,149 @@ class _StudentSigninState extends State<StudentSignin> {
           },
         ),
       ),
-      body: SizedBox(
-        child: Form(
-          child: Column(children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.1,
-            ),
-            const Text(
-              'Sign In',
-              style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 25),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width * 0.9,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(
-                  color: Colors.grey,
-                  width: 1,
-                ),
+      body: SingleChildScrollView(
+        child: SizedBox(
+          child: Form(
+            child: Column(children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.1,
               ),
-              child: TextFormField(
-                controller: _email,
-                decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(horizontal: 5),
-                  labelText: "Email",
-                ),
+              const Text(
+                'Sign In',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 25),
               ),
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width * 0.9,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(
-                  color: Colors.grey,
-                  width: 1,
-                ),
+              const SizedBox(
+                height: 20,
               ),
-              child: TextFormField(
-                controller: _password,
-                obscureText: passToggle,
-                decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 5),
-                  labelText: "Password",
-                  suffix: InkWell(
-                    onTap: () {
-                      setState(() {
-                        passToggle = !passToggle;
-                      });
-                    },
-                    child: Icon(
-                        passToggle ? Icons.visibility : Icons.visibility_off),
+              Container(
+                width: MediaQuery.of(context).size.width * 0.9,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                    color: Colors.grey,
+                    width: 1,
                   ),
                 ),
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 30),
-                  child: TextButton(
-                    onPressed: () {},
-                    child: const Text(
-                      'Forget Password',
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontSize: 16,
-                      ),
+                child: TextFormField(
+                  controller: _email,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    labelText: "Email",
+                    prefixIcon: const Icon(
+                      Icons.person_2,
+                      color: Colors.black87,
                     ),
                   ),
                 ),
-              ],
-            ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.3,
-              child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: ColorTheme.appcolor),
-                  onPressed: () {
-                    FirebaseAuth.instance
-                        .signInWithEmailAndPassword(
-                            email: _email.text, password: _password.text)
-                        .then((value) {
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width * 0.9,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                    color: Colors.grey,
+                    width: 1,
+                  ),
+                ),
+                child: TextFormField(
+                  controller: _password,
+                  obscureText: passToggle,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    labelText: "Password",
+                    prefixIcon: const Icon(
+                      Icons.lock,
+                      color: Colors.black87,
+                    ),
+                    suffix: InkWell(
+                      onTap: () {
+                        setState(() {
+                          passToggle = !passToggle;
+                        });
+                      },
+                      child: Icon(
+                          passToggle ? Icons.visibility : Icons.visibility_off),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 30),
+                    child: TextButton(
+                      onPressed: () {},
+                      child: const Text(
+                        'Forget Password',
+                        style: TextStyle(
+                          color: ColorTheme.primarycolor,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.3,
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: ColorTheme.secondarycolor),
+                    onPressed: () {
+                      FirebaseAuth.instance
+                          .signInWithEmailAndPassword(
+                              email: _email.text, password: _password.text)
+                          .then((value) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const StudentHome(),
+                          ),
+                        );
+                      });
+                    },
+                    child: const Text(
+                      'Sign IN',
+                      style: TextStyle(
+                          color: ColorTheme.accentcolor, fontSize: 16),
+                    )),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('First Time!'),
+                  TextButton(
+                    onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => const StudentHome(),
-                        ),
+                        MaterialPageRoute(builder: (context) => const Login()),
                       );
-                    });
-                  },
-                  child: const Text(
-                    'Sign IN',
-                    style:
-                        TextStyle(color: ColorTheme.accentcolor, fontSize: 16),
-                  )),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text('First Time!'),
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Login()),
-                    );
-                  },
-                  child: const Text(
-                    'Sign Up',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, color: Colors.black),
-                  ),
-                )
-              ],
-            ),
-          ]),
+                    },
+                    child: const Text(
+                      'Sign Up',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.black),
+                    ),
+                  )
+                ],
+              ),
+            ]),
+          ),
         ),
       ),
     );

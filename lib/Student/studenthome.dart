@@ -148,7 +148,7 @@ class _StudentHomeState extends State<StudentHome> {
                 width: double.infinity,
                 height: MediaQuery.of(context).size.height * 0.5,
                 decoration: const BoxDecoration(
-                  color: ColorTheme.appcolor,
+                  color: ColorTheme.secondarycolor,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(25),
                     topRight: Radius.circular(25),
@@ -156,7 +156,7 @@ class _StudentHomeState extends State<StudentHome> {
                 ),
                 child: Column(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 80,
                     ),
                     const Text(
@@ -164,11 +164,11 @@ class _StudentHomeState extends State<StudentHome> {
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: ColorTheme.accentcolor,
+                        color: ColorTheme.primarycolor,
                         // fontStyle: FontStyle.italic,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                     const CategoryList(),

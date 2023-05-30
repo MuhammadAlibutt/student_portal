@@ -98,9 +98,9 @@ class _TeacherHomeState extends State<TeacherHome> {
       appBar: AppBar(
         title: const Text(
           "Course Detail",
-          style: TextStyle(color: ColorTheme.accentcolor),
+          style: TextStyle(color: ColorTheme.primarycolor),
         ),
-        backgroundColor: Colors.blue,
+        backgroundColor: ColorTheme.secondarycolor,
         //leading: PopupMenu(),
         centerTitle: true,
       ),

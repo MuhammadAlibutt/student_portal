@@ -75,10 +75,10 @@ class _TeacherAccountState extends State<TeacherAccount> {
       appBar: AppBar(
         title: const Text(
           "Account Settings",
-          style: TextStyle(color: ColorTheme.accentcolor),
+          style: TextStyle(color: ColorTheme.primarycolor),
         ),
         centerTitle: true,
-        backgroundColor: ColorTheme.appcolor,
+        backgroundColor: ColorTheme.secondarycolor,
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back,

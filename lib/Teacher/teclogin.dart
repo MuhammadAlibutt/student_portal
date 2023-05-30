@@ -30,16 +30,16 @@ class _TecherSigninState extends State<TecherSignin> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: ColorTheme.appcolor,
+        backgroundColor: ColorTheme.secondarycolor,
         title: const Text(
           'Welcome Back!',
-          style: TextStyle(color: ColorTheme.accentcolor),
+          style: TextStyle(color: ColorTheme.primarycolor),
         ),
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back,
-            color: ColorTheme.accentcolor,
+            color: ColorTheme.primarycolor,
           ),
           onPressed: () {
             Navigator.pushReplacement(context,
@@ -115,7 +115,7 @@ class _TecherSigninState extends State<TecherSignin> {
                         child: const Text(
                           'Forget Password',
                           style: TextStyle(
-                            color: Colors.blue,
+                            color: ColorTheme.primarycolor,
                             fontSize: 16,
                           ),
                         ),
@@ -128,7 +128,7 @@ class _TecherSigninState extends State<TecherSignin> {
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: ColorTheme.appcolor),
+                      backgroundColor: ColorTheme.secondarycolor),
                   onPressed: () {
                     FirebaseAuth.instance
                         .signInWithEmailAndPassword(
