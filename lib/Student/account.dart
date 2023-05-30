@@ -17,9 +17,9 @@ class _StudentAccountState extends State<StudentAccount> {
   String _username = 'alibutt5344';
   String _password = 'ali123';
 
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _usernameController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   //for image picking
   Future _selectImage() async {
@@ -129,7 +129,7 @@ class _StudentAccountState extends State<StudentAccount> {
                         : null,
                   ),
                 ),
-                Positioned(
+                const Positioned(
                     right: 8,
                     bottom: 3,
                     child: Icon(
