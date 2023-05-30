@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:student_portal/Teacher/chat_Screen.dart';
 import 'package:student_portal/Teacher/teachercourse.dart';
 import 'package:student_portal/home.dart';
 import 'tecnotification.dart';
@@ -15,7 +16,7 @@ Widget PopupMenu() {
       ),
       icon: const Icon(
         Icons.menu,
-        color: Colors.black,
+        color: Colors.white,
       ),
       itemBuilder: (context) => [
             PopupMenuItem(
@@ -55,11 +56,11 @@ Widget PopupMenu() {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const TeacherAccount()),
+                        builder: (context) => const TutorChatScreen()),
                   );
                 },
                 child: const Text(
-                  'Account',
+                  'Chat',
                   style: TextStyle(color: Colors.black),
                 ),
               ),
@@ -83,6 +84,22 @@ Widget PopupMenu() {
             PopupMenuItem(
               value: 5,
               child: TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const TeacherAccount()),
+                  );
+                },
+                child: const Text(
+                  'Account',
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
+            ),
+            PopupMenuItem(
+              value: 6,
+              child: TextButton(
                 onPressed: () {},
                 child: const Text(
                   'About App',
@@ -91,7 +108,7 @@ Widget PopupMenu() {
               ),
             ),
             PopupMenuItem(
-              value: 6,
+              value: 7,
               child: TextButton(
                 onPressed: () {
                   FirebaseAuth.instance.signOut().then((value) {

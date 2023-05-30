@@ -75,14 +75,14 @@ class _TeacherAccountState extends State<TeacherAccount> {
       appBar: AppBar(
         title: const Text(
           "Account Settings",
-          style: TextStyle(color: ColorTheme.primarycolor),
+          style: TextStyle(color: ColorTheme.accentcolor),
         ),
         centerTitle: true,
-        backgroundColor: ColorTheme.secondarycolor,
+        backgroundColor: ColorTheme.appcolor,
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back,
-            color: ColorTheme.primarycolor,
+            color: ColorTheme.accentcolor,
           ),
           onPressed: () {
             Navigator.pushReplacement(

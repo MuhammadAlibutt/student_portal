@@ -16,7 +16,7 @@ class _EnrolledCoursesState extends State<EnrolledCourses> {
       height: MediaQuery.of(context).size.height * 0.3,
       width: MediaQuery.of(context).size.width * 0.9,
       child: Card(
-        color: ColorTheme.secondarycolor,
+        color: ColorTheme.appcolor,
         child: Container(
           margin: const EdgeInsets.only(left: 20, top: 50, right: 10),
           child:
@@ -88,15 +88,15 @@ class _EnrolledCoursesState extends State<EnrolledCourses> {
       title: const Text(
         'Enrolled Courses',
         style: TextStyle(
-            fontStyle: FontStyle.italic, color: ColorTheme.primarycolor),
+            fontStyle: FontStyle.italic, color: ColorTheme.accentcolor),
       ),
       centerTitle: true,
-      backgroundColor: ColorTheme.secondarycolor,
+      backgroundColor: ColorTheme.appcolor,
       elevation: 0,
       leading: IconButton(
         icon: const Icon(
           Icons.arrow_back,
-          color: ColorTheme.primarycolor,
+          color: ColorTheme.accentcolor,
         ),
         onPressed: () {
           Navigator.pushReplacement(

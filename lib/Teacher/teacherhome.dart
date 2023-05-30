@@ -96,11 +96,11 @@ class _TeacherHomeState extends State<TeacherHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "Course Detail",
-          style: TextStyle(color: ColorTheme.primarycolor),
+          style: TextStyle(color: ColorTheme.accentcolor),
         ),
-        backgroundColor: Colors.black26,
+        backgroundColor: Colors.blue,
         //leading: PopupMenu(),
         centerTitle: true,
       ),

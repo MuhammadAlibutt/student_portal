@@ -16,14 +16,14 @@ class _techNotificationState extends State<techNotification> {
         appBar: AppBar(
           title: const Text(
             'Notification Center',
-            style: TextStyle(color: Colors.black),
+            style: TextStyle(color: Colors.white),
           ),
-          backgroundColor: ColorTheme.secondarycolor,
+          backgroundColor: ColorTheme.appcolor,
           centerTitle: true,
           leading: IconButton(
             icon: const Icon(
               Icons.arrow_back,
-              color: ColorTheme.primarycolor,
+              color: ColorTheme.accentcolor,
             ),
             onPressed: () {
               Navigator.pushReplacement(

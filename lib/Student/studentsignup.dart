@@ -86,7 +86,7 @@ class _LoginState extends State<Login> {
     final appbar = AppBar(
       title: const Text('Welcome Students'),
       centerTitle: true,
-      backgroundColor: ColorTheme.secondarycolor,
+      backgroundColor: ColorTheme.appcolor,
     );
     return Scaffold(
       appBar: appbar,

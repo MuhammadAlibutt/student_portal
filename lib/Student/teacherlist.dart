@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'teachercart.dart';
-import 'package:get/get.dart';
 
 class TeacherList extends StatefulWidget {
   const TeacherList({super.key});
@@ -13,9 +12,9 @@ class _TeacherListState extends State<TeacherList> {
   MyProject(pic, title, des, star) {
     return Container(
       height: MediaQuery.of(context).size.height * 0.3,
-      width: MediaQuery.of(context).size.width * 0.8,
+      width: MediaQuery.of(context).size.width * 0.85,
       child: Card(
-        color: Color.fromARGB(255, 16, 66, 215),
+        color: Colors.blue,
         child: Container(
           margin: EdgeInsets.only(left: 20, top: 50, right: 10),
           child:

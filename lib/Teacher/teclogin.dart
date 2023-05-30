@@ -4,6 +4,7 @@ import 'package:student_portal/colorscheme.dart';
 import 'package:student_portal/home.dart';
 import 'package:student_portal/Teacher/tecsignup.dart';
 import 'teachercourse.dart';
+import 'package:student_portal/colorscheme.dart';
 
 class TecherSignin extends StatefulWidget {
   const TecherSignin({Key? key}) : super(key: key);
@@ -29,20 +30,20 @@ class _TecherSigninState extends State<TecherSignin> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: ColorTheme.secondarycolor,
+        backgroundColor: ColorTheme.appcolor,
         title: const Text(
           'Welcome Back!',
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: ColorTheme.accentcolor),
         ),
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back,
-            color: ColorTheme.primarycolor,
+            color: ColorTheme.accentcolor,
           ),
           onPressed: () {
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: ((context) => Home())));
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: ((context) => const Home())));
           },
         ),
       ),
@@ -101,11 +102,33 @@ class _TecherSigninState extends State<TecherSignin> {
                   ),
                 ),
                 const SizedBox(
-                  height: 40,
+                  height: 15,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 10),
+                      child: TextButton(
+                        onPressed: () {},
+                        child: const Text(
+                          'Forget Password',
+                          style: TextStyle(
+                            color: Colors.blue,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: ColorTheme.secondarycolor),
+                      backgroundColor: ColorTheme.appcolor),
                   onPressed: () {
                     FirebaseAuth.instance
                         .signInWithEmailAndPassword(
@@ -127,7 +150,7 @@ class _TecherSigninState extends State<TecherSignin> {
                         fontSize: 18,
                         fontWeight: FontWeight.w500,
                         fontStyle: FontStyle.italic,
-                        color: ColorTheme.primarycolor),
+                        color: ColorTheme.accentcolor),
                   ),
                 ),
                 Row(

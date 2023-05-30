@@ -25,18 +25,18 @@ class _StudentSigninState extends State<StudentSignin> {
       appBar: AppBar(
         title: const Text(
           'Welcome Back!',
-          style: TextStyle(color: ColorTheme.primarycolor),
+          style: TextStyle(color: ColorTheme.accentcolor),
         ),
         centerTitle: true,
-        backgroundColor: ColorTheme.secondarycolor,
+        backgroundColor: ColorTheme.appcolor,
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back,
-            color: ColorTheme.primarycolor,
+            color: ColorTheme.accentcolor,
           ),
           onPressed: () {
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: ((context) => Home())));
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: ((context) => const Home())));
           },
         ),
       ),
@@ -57,9 +57,9 @@ class _StudentSigninState extends State<StudentSignin> {
               height: 20,
             ),
             Container(
-              width: MediaQuery.of(context).size.width * 0.8,
+              width: MediaQuery.of(context).size.width * 0.9,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(20),
                 border: Border.all(
                   color: Colors.grey,
                   width: 1,
@@ -74,14 +74,14 @@ class _StudentSigninState extends State<StudentSignin> {
               ),
             ),
             const SizedBox(
-              height: 10,
+              height: 15,
             ),
             Container(
-              width: MediaQuery.of(context).size.width * 0.8,
+              width: MediaQuery.of(context).size.width * 0.9,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(20),
                 border: Border.all(
-                  color: Colors.green,
+                  color: Colors.grey,
                   width: 1,
                 ),
               ),
@@ -89,7 +89,7 @@ class _StudentSigninState extends State<StudentSignin> {
                 controller: _password,
                 obscureText: passToggle,
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(horizontal: 5),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 5),
                   labelText: "Password",
                   suffix: InkWell(
                     onTap: () {
@@ -106,27 +106,51 @@ class _StudentSigninState extends State<StudentSignin> {
             const SizedBox(
               height: 10,
             ),
-            ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: ColorTheme.secondarycolor),
-                onPressed: () {
-                  FirebaseAuth.instance
-                      .signInWithEmailAndPassword(
-                          email: _email.text, password: _password.text)
-                      .then((value) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const StudentHome(),
-                      ),
-                    );
-                  });
-                },
-                child: const Text(
-                  'Sign IN',
-                  style: TextStyle(color: ColorTheme.primarycolor),
-                )),
             Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 30),
+                  child: TextButton(
+                    onPressed: () {},
+                    child: const Text(
+                      'Forget Password',
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.3,
+              child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: ColorTheme.appcolor),
+                  onPressed: () {
+                    FirebaseAuth.instance
+                        .signInWithEmailAndPassword(
+                            email: _email.text, password: _password.text)
+                        .then((value) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const StudentHome(),
+                        ),
+                      );
+                    });
+                  },
+                  child: const Text(
+                    'Sign IN',
+                    style:
+                        TextStyle(color: ColorTheme.accentcolor, fontSize: 16),
+                  )),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text('First Time!'),
                 TextButton(
