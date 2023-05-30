@@ -111,7 +111,7 @@ class _LoginState extends State<Login> {
               backgroundImage: _imgFile == null
                   ? const AssetImage('assets/images/pic.jpg') as ImageProvider
                   : FileImage(_imgFile!),
-              child: const Stack(
+              child: Stack(
                 children: [
                   Positioned(
                       bottom: 5,
@@ -167,8 +167,8 @@ class _LoginState extends State<Login> {
                 borderRadius: BorderRadius.circular(20),
               ),
               labelText: "User Name",
-              prefixIcon: const Icon(
-                Icons.person_2,
+              prefixIcon: Icon(
+                Icons.person,
                 color: Colors.black87,
               ),
             ),

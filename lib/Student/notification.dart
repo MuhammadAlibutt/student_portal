@@ -15,7 +15,7 @@ class _NotificationscreenState extends State<Notificationscreen> {
     return Scaffold(
         appBar: AppBar(
           title: const Text(
-            'Notification Center',
+            'Notification',
             style: TextStyle(color: Colors.white),
           ),
           backgroundColor: ColorTheme.appcolor,

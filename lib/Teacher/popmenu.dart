@@ -8,6 +8,7 @@ import 'teacherhome.dart';
 import 'teacheraccount.dart';
 
 // ignore: non_constant_identifier_names
+final String user = 'Student';
 Widget PopupMenu() {
   return PopupMenuButton(
       color: Colors.white,
@@ -56,7 +57,10 @@ Widget PopupMenu() {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const TutorChatScreen()),
+                      builder: (context) => const TutorChatScreen(
+                          // name: user,
+                          ),
+                    ),
                   );
                 },
                 child: const Text(
