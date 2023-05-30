@@ -2,11 +2,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:student_portal/colorscheme.dart';
 import 'package:student_portal/home.dart';
+import '../chat module/chatmodule.dart';
 import 'teacherlist.dart';
 import 'enrolledCourse.dart';
 import 'category.dart';
 import 'notification.dart';
 import 'account.dart';
+import 'video call/videocall.dart';
 
 class StudentHome extends StatefulWidget {
   const StudentHome({super.key});
@@ -98,7 +100,12 @@ class _StudentHomeState extends State<StudentHome> {
                 PopupMenuItem(
                   value: 5,
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Chat()));
+                    },
                     child: const Text(
                       'Chat',
                       style: TextStyle(color: Colors.black),

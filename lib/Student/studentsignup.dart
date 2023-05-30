@@ -1,7 +1,11 @@
+import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:student_portal/colorscheme.dart';
 import 'StudentLogin.dart';
+import 'package:image_picker/image_picker.dart';
+import 'database/studatabase.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -16,7 +20,57 @@ class _LoginState extends State<Login> {
   final TextEditingController _name = TextEditingController();
   final TextEditingController _username = TextEditingController();
 
-  bool _isLoading = false;
+  void handlesignUp() async {
+    String name = _name.text;
+    String email = _email.text;
+    String password = _password.text;
+    String userName = _username.text;
+    if (name.isEmpty ||
+        email.isEmpty ||
+        password.isEmpty ||
+        userName.isEmpty ||
+        _imgFile == null) {
+      _showSnackBar('Please provide all details');
+      return;
+    }
+    Reference storageReference = FirebaseStorage.instance
+        .ref()
+        .child('profile_images/${DateTime.now().millisecondsSinceEpoch}');
+    UploadTask uploadTask = storageReference.putFile(_imgFile!);
+    TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => {});
+
+    String image = await taskSnapshot.ref.getDownloadURL();
+    FirebaseAuth.instance
+        .createUserWithEmailAndPassword(
+            email: _email.text, password: _password.text)
+        .then((userCredential) {
+      String uid = userCredential.user!.uid;
+      DatabaseService collection = DatabaseService(uid: uid);
+      collection.createValue(name, email, userName, password, image);
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const StudentSignin(),
+        ),
+      );
+    }).onError((error, stackTrace) {
+      _showSnackBar('SignUp Failed');
+    });
+  }
+
+  File? _imgFile;
+  final imgpicker = ImagePicker();
+  Future getImage() async {
+    final pickedFile = await imgpicker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile != null) {
+        _imgFile = File(pickedFile.path);
+      }
+    });
+  }
+
+  bool _ispasswordvisible = false;
 
   void _showSnackBar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -36,11 +90,7 @@ class _LoginState extends State<Login> {
     );
     return Scaffold(
       appBar: appbar,
-      body: SizedBox(
-        height: (MediaQuery.of(context).size.height -
-                MediaQuery.of(context).padding.left -
-                MediaQuery.of(context).padding.top) *
-            0.7,
+      body: SingleChildScrollView(
         child: Column(children: [
           const SizedBox(
             height: 15,
@@ -52,6 +102,31 @@ class _LoginState extends State<Login> {
           ),
           const SizedBox(
             height: 50,
+          ),
+          InkWell(
+            onTap: getImage,
+            child: CircleAvatar(
+              radius: 50,
+              // ignore: prefer_const_constructors
+              backgroundImage: _imgFile == null
+                  ? const AssetImage('assets/images/pic.jpg') as ImageProvider
+                  : FileImage(_imgFile!),
+              child: const Stack(
+                children: [
+                  Positioned(
+                      bottom: 5,
+                      right: 1,
+                      child: Icon(
+                        Icons.camera_alt_sharp,
+                        color: Color.fromARGB(255, 182, 178, 178),
+                        size: 30,
+                      )),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 20,
           ),
           TextFormField(
             controller: _name,
@@ -93,7 +168,7 @@ class _LoginState extends State<Login> {
               ),
               labelText: "User Name",
               prefixIcon: const Icon(
-                Icons.person,
+                Icons.person_2,
                 color: Colors.black87,
               ),
             ),
@@ -103,47 +178,44 @@ class _LoginState extends State<Login> {
           ),
           TextFormField(
             controller: _password,
+            obscureText: !_ispasswordvisible,
             decoration: InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              labelText: "Password",
-              prefixIcon: const Icon(
-                Icons.lock,
-                color: Colors.black87,
-              ),
-            ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                labelText: "Password",
+                prefixIcon: const Icon(
+                  Icons.lock,
+                  color: Colors.black87,
+                ),
+                suffix: IconButton(
+                  onPressed: () {
+                    setState(() {
+                      _ispasswordvisible = !_ispasswordvisible;
+                    });
+                  },
+                  icon: Icon(_ispasswordvisible
+                      ? Icons.visibility_off
+                      : Icons.visibility),
+                )),
           ),
           const SizedBox(
             height: 15,
           ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.3,
-            child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: ColorTheme.appcolor),
-                onPressed: () {
-                  FirebaseAuth.instance
-                      .createUserWithEmailAndPassword(
-                          email: _email.text, password: _password.text)
-                      .then((value) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const StudentSignin(),
-                      ),
-                    );
-                  }).onError((error, stackTrace) {
-                    _showSnackBar('SignUp Failed');
-                  });
-                },
-                child: const Text(
-                  'Sign Up',
-                  style: TextStyle(color: ColorTheme.accentcolor, fontSize: 16),
-                )),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                backgroundColor: ColorTheme.secondarycolor),
+            onPressed: () {
+              handlesignUp();
+            },
+            child: const Text(
+              'Sign Up',
+              style: TextStyle(color: ColorTheme.primarycolor),
+            ),
           ),
         ]),
       ),
+      //  ),
     );
   }
 }

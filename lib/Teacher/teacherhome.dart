@@ -14,7 +14,7 @@ class _TeacherHomeState extends State<TeacherHome> {
       height: MediaQuery.of(context).size.height * 0.4,
       width: MediaQuery.of(context).size.width * 0.9,
       child: Card(
-        color: Colors.blue,
+        color: Colors.black26,
         // color: const Color.fromARGB(255, 16, 66, 215),
         child: Container(
           margin: const EdgeInsets.only(left: 20, top: 50, right: 10),

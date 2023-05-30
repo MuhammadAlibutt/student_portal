@@ -1,32 +1,30 @@
 import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:student_portal/Teacher/teacher_schedule.dart';
 import 'package:student_portal/colorscheme.dart';
 import 'teachercourse.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:path/path.dart' as path;
 
 class TeacherDetail extends StatefulWidget {
-  final String? courseName;
-
-  TeacherDetail({Key? key, this.courseName});
+  const TeacherDetail({super.key});
 
   @override
   State<TeacherDetail> createState() => _TeacherDetailState();
 }
 
 class _TeacherDetailState extends State<TeacherDetail> {
-  final firebase_storage.Reference storageRef =
-      firebase_storage.FirebaseStorage.instance.ref();
-
   File? selectedImage;
-  String? description;
 
-  Future<void> chooseImage() async {
-    final image = await ImagePicker().pickImage(
+  final TextEditingController _course = TextEditingController();
+  final TextEditingController _dec = TextEditingController();
+  final TextEditingController _price = TextEditingController();
+  String cousre = '';
+  String description = '';
+  String price = '';
+  Future<void> chooseimage() async {
+    var image;
+    image = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       imageQuality: 50,
     );
@@ -37,46 +35,27 @@ class _TeacherDetailState extends State<TeacherDetail> {
     }
   }
 
-  Future<void> uploadData() async {
-    if (selectedImage != null && description != null) {
-      // Upload the image to Firebase Storage
-      final fileName = path.basename(selectedImage!.path);
-      final destination = 'images/$fileName';
-      final uploadTask = storageRef.child(destination).putFile(selectedImage!);
-      final snapshot = await uploadTask.whenComplete(() {});
-      final imageUrl = await snapshot.ref.getDownloadURL();
-
-      // Store the image URL and description in Firestore
-      final currentUser = FirebaseAuth.instance.currentUser;
-      if (currentUser != null) {
-        final teacherDetailsDocRef = FirebaseFirestore.instance
-            .collection('TeachersDetails')
-            .doc(currentUser.uid);
-
-        teacherDetailsDocRef.set({
-          'course': widget.courseName,
-          'imageURL': imageUrl,
-          'description': description,
-        }).then((_) {
-          _showSnackBar('Data saved to Firestore successfully');
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => TeacherSchedule(),
-            ),
-          );
-        }).catchError((error) {
-          _showSnackBar('Error saving data to Firestore: $error');
-        });
-      }
-    }
+  void firebasecourse() async {
+    String course = _course.text;
+    String dec = _dec.text;
+    String price = _price.text;
+    FirebaseFirestore.instance.collection('Course').add({
+      'course': course,
+      'Description': dec,
+      'price': price,
+    }).then((value) {
+      _showSnackBar("Course Added Thank you :)");
+      _course.clear();
+      _dec.clear();
+      _price.clear();
+    });
   }
 
   void _showSnackBar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
-        // duration: const Duration(seconds: 2),
+        duration: const Duration(seconds: 2),
       ),
     );
   }
@@ -92,8 +71,8 @@ class _TeacherDetailState extends State<TeacherDetail> {
             color: ColorTheme.primarycolor,
           ),
           onPressed: () {
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (context) => TechHome()));
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const TechHome()));
           },
         ),
         elevation: 0,
@@ -106,27 +85,29 @@ class _TeacherDetailState extends State<TeacherDetail> {
               height: 20,
             ),
             Center(
-              child: CircleAvatar(
-                radius: 80,
-                child: ClipOval(
-                    child: selectedImage != null
-                        ? Image.file(
-                            selectedImage!,
-                            fit: BoxFit.cover,
-                          )
-                        : Image.network(
-                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_5M5cCY-BchEKiQE11PBdNjsbkUaX8Rw3Jg&usqp=CAU')),
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.15,
+                width: MediaQuery.of(context).size.width * 0.33,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(80),
+                  image: selectedImage == null
+                      ? const DecorationImage(
+                          image: AssetImage("assets/images/pic.jpg"),
+                          fit: BoxFit.fill)
+                      : DecorationImage(
+                          image: FileImage(selectedImage!), fit: BoxFit.fill),
+                ),
               ),
             ),
             const SizedBox(
               height: 20,
             ),
             ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-              ),
+              // style: ElevatedButton.styleFrom(
+              //   backgroundColor: Colors.black,
+              // ),
               onPressed: () {
-                chooseImage();
+                chooseimage();
               },
               child: const Text('Select Profile'),
             ),
@@ -136,7 +117,7 @@ class _TeacherDetailState extends State<TeacherDetail> {
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.8,
               child: TextFormField(
-                initialValue: widget.courseName,
+                controller: _course,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
@@ -156,12 +137,7 @@ class _TeacherDetailState extends State<TeacherDetail> {
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.8,
               child: TextFormField(
-                initialValue: description,
-                onChanged: (value) {
-                  setState(() {
-                    description = value;
-                  });
-                },
+                controller: _dec,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
@@ -174,53 +150,40 @@ class _TeacherDetailState extends State<TeacherDetail> {
               ),
             ),
             const SizedBox(
+              height: 5,
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.8,
+              child: TextFormField(
+                controller: _price,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  labelText: "Price",
+                  prefixIcon: const Icon(
+                    Icons.payment,
+                    color: Colors.black,
+                  ),
+                  fillColor: Colors.black,
+                ),
+              ),
+            ),
+            const SizedBox(
               height: 20,
             ),
-            Padding(
-              padding:
-                  EdgeInsets.only(bottom: 10, left: 20, right: 20, top: 20),
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width * 0.8,
-                height: MediaQuery.of(context).size.height * 0.065,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  onPressed: () {
-                    uploadData();
-                    // final currentUser = FirebaseAuth.instance.currentUser;
-                    // if (currentUser != null) {
-                    //   // Create a new document reference in the 'TeachersDetails' collection
-                    //   final teacherDetailsDocRef = FirebaseFirestore.instance
-                    //       .collection('TeachersDetails')
-                    //       .doc(currentUser.uid);
-                    //   //Set the data for the teacher details document
-                    //   teacherDetailsDocRef.set({
-                    //     'course': widget.courseName,
-                    //     'imageURL': imageUrl,
-                    //     'description': description,
-                    //   }).then((_) {
-                    //     _showSnackBar('Data saved to Firestore successflly');
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => TeacherSchedule(),
-                      ),
-                    );
-                    //   }).catchError((error) {
-                    //     _showSnackBar('Error saving data to FireStore: $error');
-                    //   });
-                    //   print('$imageUrl');
-                    // }
-                  },
-                  child: const Text(
-                    'Continue',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blueAccent,
+              ),
+              onPressed: () {
+                firebasecourse();
+              },
+              child: const Text(
+                'Save Profile',
+                // style: TextStyle(
+                //   fontSize: 18,
+                // ),
               ),
             ),
           ],
