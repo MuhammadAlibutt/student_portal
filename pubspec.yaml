@@ -45,6 +45,7 @@ dependencies:
   zego_uikit_prebuilt_call: ^3.3.18
   uuid: ^3.0.7
   permission_handler: ^10.2.0
+  flutter_secure_storage: ^8.0.0
   
 
 dev_dependencies:

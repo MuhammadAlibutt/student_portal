@@ -1,11 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:student_portal/colorscheme.dart';
 import 'teacherdetail.dart';
 import 'popmenu.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class TechHome extends StatefulWidget {
   const TechHome({Key? key}) : super(key: key);
@@ -15,36 +12,43 @@ class TechHome extends StatefulWidget {
 }
 
 class _TechHomeState extends State<TechHome> {
+  String selectedCourse = '';
+
+  final courseSelectedStorage = FlutterSecureStorage();
   List<DropdownMenuItem<String>> get course {
     return [
       const DropdownMenuItem(
-        value: '1',
-        child: Text('Math'),
+        value: 'Mobile Application Development',
+        child: Text('Mobile Application Development'),
       ),
       const DropdownMenuItem(
-        value: '2',
-        child: Text('English'),
+        value: 'Website Development',
+        child: Text('Website Development'),
       ),
       const DropdownMenuItem(
-        value: '3',
-        child: Text('Computer Science'),
+        value: 'Desktop Application Development',
+        child: Text('Desktop Applicatione'),
       ),
       const DropdownMenuItem(
-        value: '4',
-        child: Text('Email Marketing'),
+        value: 'Artifical Intelligence',
+        child: Text('Artifical Intelligence'),
       ),
       const DropdownMenuItem(
-        value: '5',
-        child: Text('Art/Designing'),
+        value: 'SEO',
+        child: Text('SEO'),
       ),
       const DropdownMenuItem(
-        value: '6',
-        child: Text('Web Development'),
+        value: 'Digital Marketing',
+        child: Text('Digital Marketing'),
       ),
       const DropdownMenuItem(
-        value: '7',
-        child: Text('Business Administration'),
+        value: 'Networking',
+        child: Text('Networking'),
       ),
+      const DropdownMenuItem(
+        value: 'Other',
+        child: Text('Other'),
+      )
     ];
   }
 
@@ -60,7 +64,7 @@ class _TechHomeState extends State<TechHome> {
         centerTitle: true,
         leading: PopupMenu(),
       ),
-      body: Container(
+      body: SizedBox(
         height: MediaQuery.of(context).size.height,
         child: SingleChildScrollView(
           child: Padding(
@@ -78,7 +82,10 @@ class _TechHomeState extends State<TechHome> {
                   DropdownButtonFormField(
                     items: course,
                     onChanged: (String? value) {
-                      //print(course);
+                      setState(() {
+                        selectedCourse = value.toString();
+                      });
+                      print('course: $selectedCourse');
                     },
                     decoration: InputDecoration(
                       prefixIcon: const Icon(
@@ -108,7 +115,9 @@ class _TechHomeState extends State<TechHome> {
                           borderRadius: BorderRadius.circular(25),
                         ),
                       ),
-                      onPressed: () {
+                      onPressed: () async {
+                        await courseSelectedStorage.write(
+                            key: 'course_name', value: selectedCourse);
                         Navigator.push(
                           context,
                           MaterialPageRoute(

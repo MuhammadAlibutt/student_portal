@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import '../colorscheme.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 
 class StudentAccount extends StatefulWidget {
   const StudentAccount({Key? key}) : super(key: key);
@@ -131,7 +130,7 @@ class _StudentAccountState extends State<StudentAccount> {
             color: ColorTheme.primarycolor,
           ),
           onPressed: () {
-            Navigator.pushReplacement(
+            Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: ((context) => const StudentHome()),
