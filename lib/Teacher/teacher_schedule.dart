@@ -11,6 +11,128 @@ class TeacherSchedule extends StatefulWidget {
 }
 
 class _TeacherScheduleState extends State<TeacherSchedule> {
+  List<int> selected = [];
+  List<int> selectedDay = [];
+  String timeselected = '';
+  String sift = '';
+  String day = '';
+
+  bool? selector;
+
+  bool? daySelector;
+  timeAndDay(String time, String day, int index) {
+    bool isSelected = selected.contains(index);
+
+    return GestureDetector(
+      onTap: () {
+        print('selecter: $isSelected');
+        setState(() {
+          timeselected = time;
+          sift = day;
+          selector = isSelected;
+          if (isSelected) {
+            selected.clear();
+          } else {
+            selected.clear();
+            selected.add(index);
+          }
+        });
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(left: 10, top: 10),
+        child: Container(
+          width: MediaQuery.of(context).size.width * 0.2,
+          height: MediaQuery.of(context).size.height * 0.16,
+          decoration: BoxDecoration(
+            color: isSelected ? Colors.blue : Colors.transparent,
+            border: Border.all(
+              width: 1,
+              color: Colors.black26,
+            ),
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Padding(
+                padding: EdgeInsets.only(top: 10),
+                child: Icon(
+                  WeatherIcons.sunrise,
+                  color: Colors.black54,
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Text(
+                time,
+                style: const TextStyle(fontSize: 16, color: Colors.black54),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                day,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: Colors.black54,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  weekday(String weeday, int index) {
+    bool isSelected = selectedDay.contains(index);
+
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          day = weeday;
+          daySelector = isSelected;
+          if (isSelected) {
+            selectedDay.clear();
+          } else {
+            selectedDay.clear();
+            selectedDay.add(index);
+          }
+        });
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(left: 8, top: 20),
+        child: Container(
+          height: 60,
+          width: 50,
+          decoration: BoxDecoration(
+              border: Border.all(width: 1, color: Colors.black26),
+              borderRadius: BorderRadius.circular(20),
+              color: isSelected ? Colors.blue : Colors.transparent),
+          child: Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: Text(
+              weeday,
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 15),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        duration: const Duration(seconds: 2),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,12 +171,12 @@ class _TeacherScheduleState extends State<TeacherSchedule> {
           const SizedBox(
             height: 10,
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 18, left: 15),
+          const Padding(
+            padding: EdgeInsets.only(top: 18, left: 15),
             child: Row(
-              children: const [
+              children: [
                 Text(
-                  'Time of the day',
+                  'Please Choose Time',
                   style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
                 ),
                 SizedBox(
@@ -70,343 +192,16 @@ class _TeacherScheduleState extends State<TeacherSchedule> {
           const SizedBox(
             height: 10,
           ),
-          Row(
+          Wrap(
             children: [
-              //1st
-              Padding(
-                padding: const EdgeInsets.only(left: 20, top: 40),
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.2,
-                  height: MediaQuery.of(context).size.height * 0.16,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 1,
-                      color: Colors.black26,
-                    ),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Column(
-                    children: const [
-                      Padding(
-                        padding: EdgeInsets.only(top: 10),
-                        child: Icon(
-                          WeatherIcons.sunrise,
-                          color: Colors.black54,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        '6-9',
-                        style: TextStyle(fontSize: 16, color: Colors.black54),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        'Morning',
-                        style: TextStyle(fontSize: 14, color: Colors.black54),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              //2nd
-              Padding(
-                padding: const EdgeInsets.only(left: 10, top: 40),
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.2,
-                  height: MediaQuery.of(context).size.height * 0.16,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 1,
-                      color: Colors.black26,
-                    ),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Column(
-                    children: const [
-                      Padding(
-                        padding: EdgeInsets.only(top: 10),
-                        child: Icon(
-                          WeatherIcons.day_sunny,
-                          color: Colors.black54,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        '9-12',
-                        style: TextStyle(fontSize: 16, color: Colors.black54),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        'Late morning',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 14, color: Colors.black54),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              //3rd
-              Padding(
-                padding: const EdgeInsets.only(left: 10, top: 40),
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.2,
-                  height: MediaQuery.of(context).size.height * 0.16,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 1,
-                      color: Colors.black26,
-                    ),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Column(
-                    children: const [
-                      Padding(
-                        padding: EdgeInsets.only(top: 10),
-                        child: Icon(
-                          WeatherIcons.day_sunny,
-                          color: Colors.black54,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        '12-15',
-                        style: TextStyle(fontSize: 16, color: Colors.black54),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        'Afternoon',
-                        style: TextStyle(fontSize: 14, color: Colors.black54),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              //4th
-              Padding(
-                padding: const EdgeInsets.only(left: 10, top: 40),
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.2,
-                  height: MediaQuery.of(context).size.height * 0.16,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 1,
-                      color: Colors.black26,
-                    ),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Column(
-                    children: const [
-                      Padding(
-                        padding: EdgeInsets.only(top: 10),
-                        child: Icon(
-                          WeatherIcons.day_sunny,
-                          color: Colors.black54,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        '15-18',
-                        style: TextStyle(fontSize: 16, color: Colors.black54),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        'Late afternoon',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.black54,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-          //2nd Row
-          Row(
-            children: [
-              //1st
-              Padding(
-                padding: const EdgeInsets.only(left: 20, top: 20),
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.2,
-                  height: MediaQuery.of(context).size.height * 0.16,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 1,
-                      color: Colors.black26,
-                    ),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Column(
-                    children: const [
-                      Padding(
-                        padding: EdgeInsets.only(top: 10),
-                        child: Icon(
-                          WeatherIcons.sunset,
-                          color: Colors.black54,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        '18-21',
-                        style: TextStyle(fontSize: 16, color: Colors.black54),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        'Evening',
-                        style: TextStyle(fontSize: 14, color: Colors.black54),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              //2nd
-              Padding(
-                padding: const EdgeInsets.only(left: 10, top: 20),
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.2,
-                  height: MediaQuery.of(context).size.height * 0.16,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 1,
-                      color: Colors.black26,
-                    ),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Column(
-                    children: const [
-                      Padding(
-                        padding: EdgeInsets.only(top: 10),
-                        child: Icon(
-                          WeatherIcons.night_clear,
-                          color: Colors.black54,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        '21-24',
-                        style: TextStyle(fontSize: 16, color: Colors.black54),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        'Late evening',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 14, color: Colors.black54),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              //3rd
-              Padding(
-                padding: const EdgeInsets.only(left: 10, top: 20),
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.2,
-                  height: MediaQuery.of(context).size.height * 0.16,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 1,
-                      color: Colors.black26,
-                    ),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Column(
-                    children: const [
-                      Padding(
-                        padding: EdgeInsets.only(top: 10),
-                        child: Icon(
-                          WeatherIcons.night_clear,
-                          color: Colors.black54,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        '0-3',
-                        style: TextStyle(fontSize: 16, color: Colors.black54),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        'Night',
-                        style: TextStyle(fontSize: 14, color: Colors.black54),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              //4th
-              Padding(
-                padding: const EdgeInsets.only(left: 10, top: 20),
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.2,
-                  height: MediaQuery.of(context).size.height * 0.16,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 1,
-                      color: Colors.black26,
-                    ),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Column(
-                    children: const [
-                      Padding(
-                        padding: EdgeInsets.only(top: 10),
-                        child: Icon(
-                          WeatherIcons.night_cloudy,
-                          color: Colors.black54,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        '3-6',
-                        style: TextStyle(fontSize: 16, color: Colors.black54),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        'Late night',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.black54,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              timeAndDay('8-9', 'Morning', 0),
+              timeAndDay('9-12', 'Late Morning', 1),
+              timeAndDay('12-15', 'Afternoon', 2),
+              timeAndDay('15-18', 'late Afternoon', 3),
+              timeAndDay('18-21', 'Evening', 4),
+              timeAndDay('21-24', 'late Evening', 5),
+              timeAndDay('0-3', 'Night', 6),
+              timeAndDay('3-6', 'Late Night', 7),
             ],
           ),
           const SizedBox(
@@ -415,170 +210,23 @@ class _TeacherScheduleState extends State<TeacherSchedule> {
           const Padding(
             padding: EdgeInsets.only(left: 20, top: 20),
             child: Text(
-              'Days of the week',
+              'Select A Day',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
             ),
           ),
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 8, top: 20),
-                child: Container(
-                  height: 60,
-                  width: 50,
-                  decoration: BoxDecoration(
-                    border: Border.all(width: 1, color: Colors.black26),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: const Padding(
-                    padding: EdgeInsets.only(top: 20),
-                    child: Text(
-                      'Sun',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 15),
-                    ),
-                  ),
-                ),
-              ),
-              //Monday
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 4,
-                  top: 20,
-                ),
-                child: Container(
-                  height: 60,
-                  width: 50,
-                  decoration: BoxDecoration(
-                    border: Border.all(width: 1, color: Colors.black26),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: const Padding(
-                    padding: EdgeInsets.only(top: 20),
-                    child: Text(
-                      'Mon',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 15),
-                    ),
-                  ),
-                ),
-              ),
-              //Tuesday
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 4,
-                  top: 20,
-                ),
-                child: Container(
-                  height: 60,
-                  width: 50,
-                  decoration: BoxDecoration(
-                    border: Border.all(width: 1, color: Colors.black26),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: const Padding(
-                    padding: EdgeInsets.only(top: 20),
-                    child: Text(
-                      'Tue',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 15),
-                    ),
-                  ),
-                ),
-              ),
-              //Wednesday
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 4,
-                  top: 20,
-                ),
-                child: Container(
-                  height: 60,
-                  width: 50,
-                  decoration: BoxDecoration(
-                    border: Border.all(width: 1, color: Colors.black26),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: const Padding(
-                    padding: EdgeInsets.only(top: 20),
-                    child: Text(
-                      'Wed',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 15),
-                    ),
-                  ),
-                ),
-              ),
-              //Thursday
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 4,
-                  top: 20,
-                ),
-                child: Container(
-                  height: 60,
-                  width: 50,
-                  decoration: BoxDecoration(
-                    border: Border.all(width: 1, color: Colors.black26),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: const Padding(
-                    padding: EdgeInsets.only(top: 20),
-                    child: Text(
-                      'Thu',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 15),
-                    ),
-                  ),
-                ),
-              ),
-              //Friday
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 4,
-                  top: 20,
-                ),
-                child: Container(
-                  height: 60,
-                  width: 50,
-                  decoration: BoxDecoration(
-                    border: Border.all(width: 1, color: Colors.black26),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: const Padding(
-                    padding: EdgeInsets.only(top: 20),
-                    child: Text(
-                      'Fri',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 15),
-                    ),
-                  ),
-                ),
-              ),
-              //Saturday
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 4,
-                  top: 20,
-                ),
-                child: Container(
-                  height: 60,
-                  width: 50,
-                  decoration: BoxDecoration(
-                    border: Border.all(width: 1, color: Colors.black26),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: const Padding(
-                    padding: EdgeInsets.only(top: 20),
-                    child: Text(
-                      'Thu',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 15),
-                    ),
-                  ),
-                ),
-              ),
-            ],
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                weekday('Sun', 0),
+                weekday('Mon', 1),
+                weekday('Tue', 2),
+                weekday('Wed', 3),
+                weekday('Thu', 4),
+                weekday('Fri', 5),
+                weekday('Sat', 6),
+              ],
+            ),
           ),
           const Spacer(),
           Padding(
@@ -594,12 +242,20 @@ class _TeacherScheduleState extends State<TeacherSchedule> {
                   ),
                 ),
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const TeacherPrice(),
-                    ),
-                  );
+                  if (selectedDay.isEmpty) {
+                    _showSnackBar('Please Select Time for the class');
+                  } else {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => TeacherPrice(
+                          time: timeselected,
+                          day: day,
+                          sift: sift,
+                        ),
+                      ),
+                    );
+                  }
                 },
                 child: const Text(
                   'Continue',

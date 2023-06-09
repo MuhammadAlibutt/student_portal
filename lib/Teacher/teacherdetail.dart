@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:student_portal/Teacher/teacher_schedule.dart';
 import 'package:student_portal/colorscheme.dart';
 import 'teachercourse.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class TeacherDetail extends StatefulWidget {
   const TeacherDetail({super.key});
@@ -21,9 +23,18 @@ class _TeacherDetailState extends State<TeacherDetail> {
   final TextEditingController _course = TextEditingController();
   final TextEditingController _dec = TextEditingController();
   final TextEditingController _price = TextEditingController();
+  final TextEditingController tutorName = TextEditingController();
   String cousre = '';
   String description = '';
   String price = '';
+  final courseName = const FlutterSecureStorage();
+  final courseTitle = const FlutterSecureStorage();
+  final courseDescription = const FlutterSecureStorage();
+  final courseImage = const FlutterSecureStorage();
+  final courseTutorName = const FlutterSecureStorage();
+  final imageUrl = const FlutterSecureStorage();
+  String _selectCourse = '';
+
   Future<void> chooseimage() async {
     var image;
     image = await ImagePicker().pickImage(
@@ -37,28 +48,26 @@ class _TeacherDetailState extends State<TeacherDetail> {
     }
   }
 
-  void firebasecourse() async {
+  void storedata() async {
     String course = _course.text;
     String dec = _dec.text;
-    String price = _price.text;
+    String tutor = tutorName.text;
+    await courseTutorName.write(key: 'tutor_name', value: tutor);
+    await courseTitle.write(key: 'course_title', value: course);
+    await courseDescription.write(key: 'course_dec', value: dec);
 
-    if (selectedImage == null) {
-      _showSnackBar('Please Select An Image');
-      return;
-    }
+    //converting the image to bytes
+    // File Image = File(selectedImage ?? '');
+    // ;
+    // List<int> imageByte = await selectedImage!.readAsBytes();
+    // //String base64Image = base64Encode(imageByte);
+    // await imageUrl.write(key: 'image', value: imageByte);
+
     String? imageUrl = await uploadImage(selectedImage!);
-
     if (imageUrl != null) {
-      await FirebaseFirestore.instance.collection('Course').add({
-        'course': course,
-        'Description': dec,
-        'price': price,
+      await FirebaseFirestore.instance.collection('Image_Data').add({
         'image': imageUrl,
       }).then((value) {
-        _showSnackBar("Course Added Thank you :)");
-        _course.clear();
-        _dec.clear();
-        _price.clear();
         setState(() {
           selectedImage = null;
         });
@@ -76,6 +85,7 @@ class _TeacherDetailState extends State<TeacherDetail> {
         .putFile(image);
 
     String downloadUrl = await taskSnapshot.ref.getDownloadURL();
+    await courseImage.write(key: 'image', value: downloadUrl);
     return downloadUrl;
   }
 
@@ -88,26 +98,41 @@ class _TeacherDetailState extends State<TeacherDetail> {
     );
   }
 
+  String? selectedCourse;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchSelectedCourse();
+  }
+
+  void fetchSelectedCourse() async {
+    selectedCourse = await courseName.read(key: 'course_name');
+    setState(() {
+      _selectCourse = selectedCourse.toString();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
           'Enter Your Course Details',
-          style: TextStyle(color: ColorTheme.primarycolor),
+          style: TextStyle(color: Colors.white),
         ),
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back,
-            color: ColorTheme.primarycolor,
+            color: Colors.white,
           ),
           onPressed: () {
-            Navigator.pushReplacement(context,
+            Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const TechHome()));
           },
         ),
         elevation: 0,
-        backgroundColor: ColorTheme.secondarycolor,
+        backgroundColor: ColorTheme.appcolor,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -148,6 +173,52 @@ class _TeacherDetailState extends State<TeacherDetail> {
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.03,
             ),
+            Container(
+              width: MediaQuery.of(context).size.width * 0.8,
+              height: MediaQuery.of(context).size.height * 0.072,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: Colors.black),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.school_outlined,
+                      color: Colors.black,
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(_selectCourse)
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.03,
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.8,
+              child: TextFormField(
+                controller: tutorName,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  labelText: "Tutor Name",
+                  prefixIcon: const Icon(
+                    Icons.school_outlined,
+                    color: Colors.black,
+                  ),
+                  fillColor: Colors.black,
+                ),
+              ),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.03,
+            ),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.8,
               child: TextFormField(
@@ -156,7 +227,7 @@ class _TeacherDetailState extends State<TeacherDetail> {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  labelText: "Enter Your Course",
+                  labelText: "Enter Course Title",
                   prefixIcon: const Icon(
                     Icons.school_outlined,
                     color: Colors.black,
@@ -186,23 +257,6 @@ class _TeacherDetailState extends State<TeacherDetail> {
             const SizedBox(
               height: 5,
             ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.8,
-              child: TextFormField(
-                controller: _price,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  labelText: "Price",
-                  prefixIcon: const Icon(
-                    Icons.payment,
-                    color: Colors.black,
-                  ),
-                  fillColor: Colors.black,
-                ),
-              ),
-            ),
             const SizedBox(
               height: 20,
             ),
@@ -211,14 +265,23 @@ class _TeacherDetailState extends State<TeacherDetail> {
                 backgroundColor: ColorTheme.secondarycolor,
               ),
               onPressed: () {
-                firebasecourse();
-                Navigator.push(
+                if (selectedImage == null ||
+                    _course.text.isEmpty ||
+                    _dec.text.isEmpty ||
+                    tutorName.text.isEmpty) {
+                  _showSnackBar('Please Complete the Form');
+                } else {
+                  storedata();
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const TeacherSchedule()));
+                      builder: (context) => const TeacherSchedule(),
+                    ),
+                  );
+                }
               },
               child: const Text(
-                'Save Profile',
+                'Continue to the next',
                 style: TextStyle(color: ColorTheme.primarycolor),
               ),
             ),

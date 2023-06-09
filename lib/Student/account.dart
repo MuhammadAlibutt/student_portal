@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import '../colorscheme.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 
 class StudentAccount extends StatefulWidget {
   const StudentAccount({Key? key}) : super(key: key);
@@ -46,25 +45,6 @@ class _StudentAccountState extends State<StudentAccount> {
     final String uid = FirebaseAuth.instance.currentUser!.uid;
     viewValue(uid);
   }
-
-  // void _dialog() {
-  //   showDialog(
-  //     context: context,
-  //     builder: (_) => AlertDialog(
-  //       title: const Text('confirm!'),
-  //       content: const Text("are you Sure!"),
-  //       actions: [
-  //         TextButton(
-  //           onPressed: () {
-  //             updateValue();
-  //             Navigator.of(context).pop();
-  //           },
-  //           child: const Text('Update'),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
 
   void _showSnackBar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -131,7 +111,7 @@ class _StudentAccountState extends State<StudentAccount> {
             color: ColorTheme.primarycolor,
           ),
           onPressed: () {
-            Navigator.pushReplacement(
+            Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: ((context) => const StudentHome()),

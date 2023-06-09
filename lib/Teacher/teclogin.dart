@@ -42,7 +42,7 @@ class _TecherSigninState extends State<TecherSignin> {
             color: ColorTheme.primarycolor,
           ),
           onPressed: () {
-            Navigator.pushReplacement(context,
+            Navigator.push(context,
                 MaterialPageRoute(builder: ((context) => const Home())));
           },
         ),
