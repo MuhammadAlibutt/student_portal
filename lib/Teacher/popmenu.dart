@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:student_portal/Teacher/chat_Screen.dart';
+import 'package:student_portal/Teacher/Chat_module/chat_Screen.dart';
 import 'package:student_portal/Teacher/teachercourse.dart';
 import 'package:student_portal/home.dart';
 import 'tecnotification.dart';
@@ -8,7 +8,6 @@ import 'teacherhome.dart';
 import 'teacheraccount.dart';
 
 // ignore: non_constant_identifier_names
-final String user = 'Student';
 Widget PopupMenu() {
   return PopupMenuButton(
       color: Colors.white,
@@ -57,9 +56,7 @@ Widget PopupMenu() {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const TutorChatScreen(
-                          // name: user,
-                          ),
+                      builder: (context) => const Chat(),
                     ),
                   );
                 },

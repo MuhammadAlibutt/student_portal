@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:student_portal/Student/Payment/payment_controller.dart';
 import 'teachercart.dart';
 
 class TeacherList extends StatefulWidget {
@@ -10,6 +12,7 @@ class TeacherList extends StatefulWidget {
 
 class _TeacherListState extends State<TeacherList> {
   MyProject(pic, title, des, star) {
+    // final paymentController = Get.put(PaymentController());
     return Container(
       height: MediaQuery.of(context).size.height * 0.3,
       width: MediaQuery.of(context).size.width * 0.85,
@@ -57,10 +60,12 @@ class _TeacherListState extends State<TeacherList> {
               children: [
                 Text(
                   star,
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.white, fontWeight: FontWeight.w400),
                 ),
                 TextButton(
+                    // onPressed: () => paymentController.makePayment(
+                    //     amount: '1500', currency: 'PK'),
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -69,7 +74,7 @@ class _TeacherListState extends State<TeacherList> {
                         ),
                       );
                     },
-                    child: Text(
+                    child: const Text(
                       'Buy Now',
                       style: TextStyle(
                         color: Colors.white,

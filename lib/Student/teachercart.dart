@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+// import 'package:get/get.dart';
+import 'package:student_portal/Student/Payment/payment_controller.dart';
+// import 'package:student_portal/Student/Payment/payment_controller.dart';
 import '../colorscheme.dart';
 
 class Cart extends StatefulWidget {
@@ -10,17 +13,18 @@ class Cart extends StatefulWidget {
 
 class _CartState extends State<Cart> {
   Cart() {
-    return Container(
+    // final paymentController = Get.put(PaymentController());
+    return SizedBox(
       height: MediaQuery.of(context).size.height * 0.5,
       //width: double.infinity,
       child: Column(
         children: [
           Row(children: [
-            CircleAvatar(
+            const CircleAvatar(
               backgroundImage: AssetImage('assets/images/pic.jpg'),
               radius: 70,
             ),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
             Column(
@@ -40,11 +44,19 @@ class _CartState extends State<Cart> {
             height: MediaQuery.of(context).size.height * 0.2,
           ),
           ElevatedButton(
-              onPressed: () {},
-              child: const Text(
-                "Pay Now",
-                style: TextStyle(fontSize: 16),
-              )),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const HomeScreen(),
+                  ));
+            },
+            // onPressed: () => paymentController.makePayment(),
+            child: const Text(
+              "Pay Now",
+              style: TextStyle(fontSize: 16),
+            ),
+          ),
         ],
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:student_portal/Admin/admin_login.dart';
 import 'package:student_portal/colorscheme.dart';
 import 'Student/StudentLogin.dart';
 import 'Teacher/teclogin.dart';
@@ -47,7 +48,15 @@ class Home extends StatelessWidget {
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     backgroundColor: ColorTheme.secondarycolor),
-                onPressed: () {},
+                onPressed: () {
+                  // Navigator.push(context, MaterialPageRoute(builder: (context)=> AdminSignin()));
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const AdminSignin(),
+                    ),
+                  );
+                },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const [

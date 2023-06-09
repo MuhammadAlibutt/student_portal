@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:student_portal/chat%20module/chatscreen.dart';
+import 'package:student_portal/Teacher/Chat_module/ChatPage.dart';
 
 class Chat extends StatefulWidget {
   const Chat({super.key});
@@ -17,7 +17,7 @@ class _ChatState extends State<Chat> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const StudentChatPage(),
+              builder: (context) => const TeacherChatPage(),
             ),
           );
         },
