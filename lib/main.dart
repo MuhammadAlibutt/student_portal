@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'Teacher/teacherhome.dart';
 import 'home.dart';
 
 void main() {
@@ -31,17 +33,24 @@ class MyHome extends StatefulWidget {
 }
 
 class _MyHomeState extends State<MyHome> {
+  late User user;
+
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 3), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const Home(),
-        ),
-      );
-    });
+    user = FirebaseAuth.instance.currentUser!;
+    Future.delayed(
+      const Duration(seconds: 3),
+      () {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                user != null ? const TeacherHome() : const Home(),
+          ),
+        );
+      },
+    );
   }
 
   @override
