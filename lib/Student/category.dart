@@ -8,32 +8,41 @@ class CategoryList extends StatefulWidget {
 }
 
 class __CategoryListState extends State<CategoryList> {
+  String selectedCourse = '';
   String? _selectCategory;
   List<DropdownMenuItem<String>> get categories {
     return [
       const DropdownMenuItem(
-        value: '1',
-        child: Text('Computer Science'),
+        value: 'Mobile Application Development',
+        child: Text('Mobile Application Development'),
       ),
       const DropdownMenuItem(
-        value: '2',
-        child: Text('Business'),
+        value: 'Website Development',
+        child: Text('Website Development'),
       ),
       const DropdownMenuItem(
-        value: '3',
-        child: Text('English'),
+        value: 'Desktop Application',
+        child: Text('Desktop Application'),
       ),
       const DropdownMenuItem(
-        value: '4',
-        child: Text('Maths'),
+        value: 'Artifical Intelligence',
+        child: Text('Artifical Intelligence'),
       ),
       const DropdownMenuItem(
-        value: '5',
-        child: Text('Arts'),
+        value: 'SEO',
+        child: Text('SEO'),
       ),
       const DropdownMenuItem(
-        value: '6',
-        child: Text('Engineering'),
+        value: 'Digital Marketing',
+        child: Text('Digital Marketing'),
+      ),
+      const DropdownMenuItem(
+        value: 'Networking',
+        child: Text('Networking'),
+      ),
+      const DropdownMenuItem(
+        value: 'Other',
+        child: Text('Other'),
       ),
     ];
   }
@@ -41,34 +50,26 @@ class __CategoryListState extends State<CategoryList> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.7,
+      width: MediaQuery.of(context).size.width * 0.9,
       height: MediaQuery.of(context).size.height * 0.1,
-      child: InputDecorator(
+      child: DropdownButtonFormField(
+        items: categories,
+        onChanged: (String? value) {
+          setState(() {
+            selectedCourse = value.toString();
+          });
+        },
         decoration: InputDecoration(
-            prefixIcon: const Icon(
-              Icons.subject,
-              color: Colors.black,
-            ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(24),
-            ),
-            filled: true,
-            fillColor: Colors.white),
-        child: DropdownButtonHideUnderline(
-          child: DropdownButton<String>(
-            value: _selectCategory,
-            isExpanded: true,
-            items: categories,
-            hint: const Text(
-              "select your course",
-              style: TextStyle(color: Colors.black),
-            ),
-            onChanged: (String? value) {
-              setState(() {
-                _selectCategory = value;
-              });
-            },
+          prefixIcon: const Icon(
+            Icons.school_outlined,
+            color: Colors.black,
           ),
+          hintText: 'Select your Course',
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          filled: true,
+          fillColor: Colors.white,
         ),
       ),
     );

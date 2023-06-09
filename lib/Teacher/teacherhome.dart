@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:student_portal/Teacher/teachercourse.dart';
@@ -33,17 +36,21 @@ class _TeacherHomeState extends State<TeacherHome> {
       if (querySnapshot.docs.isNotEmpty) {
         List<Map<String, dynamic>> courseData = [];
         querySnapshot.docs.forEach((data) {
+          String TutorName = data['Tutor_Name'];
           String courseName = data['course'];
           String dec = data['Course_dec'];
           String price = data['price'];
           String classDay = data['Class_Day'];
           String classTime = data['Class_time'];
+          String imageUrl = data['Image'];
 
           Map<String, dynamic> course = {
+            'TutorName': TutorName,
             'courseName': courseName,
             'description': dec,
             'price': price,
             'timeTable': classDay + (',') + classTime,
+            'Image': imageUrl,
           };
 
           courseData.add(course);
@@ -76,17 +83,18 @@ class _TeacherHomeState extends State<TeacherHome> {
       child: Card(
         color: ColorTheme.appcolor,
         child: Container(
-          margin: const EdgeInsets.only(left: 20, top: 50, right: 10),
+          margin: const EdgeInsets.only(left: 10, top: 50, right: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [
                   CircleAvatar(
-                    backgroundImage: AssetImage(pic),
+                    backgroundImage: NetworkImage(pic),
                     radius: 50,
                   ),
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         name,
@@ -99,13 +107,13 @@ class _TeacherHomeState extends State<TeacherHome> {
                       const SizedBox(
                         height: 5,
                       ),
-                      const Text(
-                        'Course ',
-                        style: TextStyle(
-                          fontSize: 10,
-                          color: Colors.white,
-                        ),
-                      ),
+                      // const Text(
+                      //   'Course ',
+                      //   style: TextStyle(
+                      //     fontSize: 10,
+                      //     color: Colors.white,
+                      //   ),
+                      // ),
                       Text(
                         title,
                         style: const TextStyle(
@@ -202,8 +210,8 @@ class _TeacherHomeState extends State<TeacherHome> {
                 child: Column(
                     children: courseData.map<Widget>((course) {
                   return myProject(
-                    'assets/images/pic.jpg',
-                    'Muhammad Ali',
+                    course['Image'],
+                    course['TutorName'],
                     course['courseName'],
                     course['description'],
                     course['price'],

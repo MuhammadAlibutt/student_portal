@@ -17,62 +17,56 @@ class _TeacherListState extends State<TeacherList> {
           await FirebaseFirestore.instance.collection('all_courses').get();
       // print(querySnapshot.toString());
       if (querySnapshot.docs.isNotEmpty) {
-        print("course detail access");
-        for (var courses in querySnapshot.docs) {
-          print('step 2');
-          print('course accessed');
-          querySnapshot.docs.forEach((data) {
-            String courseName = data['course'];
-            String dec = data['Course_dec'];
-            String price = data['price'];
-            // String classDay = data['Class_Day'];
-            // String classTime = data['Class_time'];
-            Map<String, dynamic> course = {
-              'courseName': courseName,
-              'description': dec,
-              'price': price,
-              // 'timeTable': classDay + (',') + classTime,
-            };
-            courseList.add(course);
-          });
-        }
-        print('courseList: $courseList');
-        return courseList;
-      } else {
-        print('failed in loading data');
+        querySnapshot.docs.forEach((data) {
+          String tutorName = data['Tutor_Name'];
+          String courseName = data['course'];
+          String dec = data['Course_dec'];
+          String price = data['price'];
+          String classDay = data['Class_Day'];
+          String classTime = data['Class_time'];
+          String imageUrl = data['Image'];
+          Map<String, dynamic> course = {
+            'tutorName': tutorName,
+            'courseName': courseName,
+            'description': dec,
+            'price': price,
+            'timeTable': classDay + (',') + classTime,
+            'Image': imageUrl,
+          };
+          courseList.add(course);
+        });
       }
-      print('try is working');
-      return [];
+      return courseList;
     } catch (e) {
-      print('error $e');
       rethrow;
     }
   }
 
-  myProject(pic, Name, title, des, price) {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.3,
+  myProject(pic, Name, title, des, timeTable, price) {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.4,
       width: MediaQuery.of(context).size.width * 0.85,
       child: Card(
         color: Colors.blue,
         child: Container(
-          margin: const EdgeInsets.only(left: 20, top: 50, right: 10),
+          margin: const EdgeInsets.only(left: 10, top: 50, right: 10),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Row(
               children: [
                 CircleAvatar(
-                  backgroundImage: AssetImage(pic),
+                  backgroundImage: NetworkImage(pic),
                   radius: 40,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       Name,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
@@ -80,8 +74,8 @@ class _TeacherListState extends State<TeacherList> {
                     ),
                     Text(
                       title,
-                      style: TextStyle(
-                        fontSize: 20,
+                      style: const TextStyle(
+                        fontSize: 10,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
@@ -90,22 +84,33 @@ class _TeacherListState extends State<TeacherList> {
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Text(
               des,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 12,
                 color: Colors.white,
               ),
             ),
+            const SizedBox(
+              height: 30,
+            ),
+            Text(
+              "Class Time: $timeTable",
+              style: const TextStyle(
+                fontSize: 12,
+                color: Colors.white,
+              ),
+            ),
+            const Spacer(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  price,
-                  style: TextStyle(
+                  'Rs: $price',
+                  style: const TextStyle(
                       color: Colors.white, fontWeight: FontWeight.w400),
                 ),
                 TextButton(
@@ -113,11 +118,16 @@ class _TeacherListState extends State<TeacherList> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: ((context) => Cart()),
+                          builder: ((context) => Cart(
+                                courseName: title,
+                                tutorName: Name,
+                                price: price,
+                                imageUrl: pic,
+                              )),
                         ),
                       );
                     },
-                    child: Text(
+                    child: const Text(
                       'Buy Now',
                       style: TextStyle(
                         color: Colors.white,
@@ -152,12 +162,12 @@ class _TeacherListState extends State<TeacherList> {
                 child: Column(
                   children: courseData.map<Widget>((course) {
                     return myProject(
-                      'assets/images/pic.jpg',
-                      "Muhammad Ali",
+                      course['Image'],
+                      course['tutorName'],
                       course['courseName'],
                       course['description'],
+                      course['timeTable'],
                       course['price'],
-                      // course['timeTable'],
                     );
                   }).toList(),
                 ),

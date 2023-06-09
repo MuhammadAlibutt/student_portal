@@ -1,46 +1,157 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:student_portal/Student/studenthome.dart';
 import '../colorscheme.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class Cart extends StatefulWidget {
-  const Cart({super.key});
+  final String courseName;
+  final String tutorName;
+  final String price;
+  final String imageUrl;
+  const Cart(
+      {super.key,
+      required this.courseName,
+      required this.tutorName,
+      required this.price,
+      required this.imageUrl});
 
   @override
   State<Cart> createState() => _CartState();
 }
 
 class _CartState extends State<Cart> {
-  Cart() {
+  Future<void> saveDataInFireStore() async {
+    String courseTitle = widget.courseName;
+    String courseTutorName = widget.tutorName;
+    String coursePrice = widget.price;
+    String courseImage = widget.imageUrl;
+
+    String uid = FirebaseAuth.instance.currentUser!.uid;
+    await FirebaseFirestore.instance
+        .collection('Student_Enrolled_Courses')
+        .doc(uid)
+        .collection('Enrolled_Courses')
+        .add({
+      "Tutor_Name": courseTutorName,
+      "Course_Name": courseTitle,
+      "Course_Price": coursePrice,
+      "Course_Image": courseImage,
+    });
+    _showSnackBar('Transaction Successful');
+  }
+
+  cartData() {
     return Container(
+      width: MediaQuery.of(context).size.width * 0.85,
       height: MediaQuery.of(context).size.height * 0.5,
-      //width: double.infinity,
+      decoration: BoxDecoration(
+        border: Border.all(width: 1, color: Colors.grey),
+        borderRadius: BorderRadius.circular(20),
+      ),
       child: Column(
         children: [
-          Row(children: [
-            CircleAvatar(
-              backgroundImage: AssetImage('assets/images/pic.jpg'),
-              radius: 70,
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            Column(
-              children: const [
-                Text(
-                  'Sir Name',
-                  style: TextStyle(color: Colors.black, fontSize: 25),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                const Text(
+                  'Tutor Name:',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold),
                 ),
+                const Spacer(),
                 Text(
-                  'Mobile Application Developer',
-                  style: TextStyle(color: Colors.black, fontSize: 10),
+                  widget.tutorName,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 12,
+                  ),
                 ),
               ],
             ),
-          ]),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                const Text(
+                  'Course Name:',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold),
+                ),
+                const Spacer(),
+                Text(
+                  widget.courseName,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 12,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                const Text(
+                  'Amount to Pay:',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold),
+                ),
+                const Spacer(),
+                Text(
+                  widget.price,
+                  style: const TextStyle(color: Colors.black, fontSize: 12),
+                ),
+              ],
+            ),
+          ),
+          const Spacer(),
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.2,
+            width: MediaQuery.of(context).size.width * 0.6,
+            child: TextFormField(
+              decoration: InputDecoration(
+                prefixIcon: const Icon(
+                  Icons.card_membership,
+                  color: Colors.blue,
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                hintText: "Enter Card",
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 20,
           ),
           ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                saveDataInFireStore();
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const StudentHome()));
+                const SnackBar(
+                  content: Text('Course Enrolled Successful'),
+                  duration: Duration(seconds: 4),
+                );
+              },
               child: const Text(
                 "Pay Now",
                 style: TextStyle(fontSize: 16),
@@ -50,26 +161,51 @@ class _CartState extends State<Cart> {
     );
   }
 
+  void _showSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        duration: const Duration(seconds: 2),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorTheme.accentcolor,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
+        backgroundColor: ColorTheme.appcolor,
+        title: const Text('Payment'),
+        centerTitle: true,
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+        //mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Text(
-            'One Step Away!',
-            style: TextStyle(
-                color: Colors.black, fontSize: 20, fontStyle: FontStyle.italic),
+          const SizedBox(
+            height: 20,
+          ),
+          const Center(
+            child: Text(
+              'One Step Away!',
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20,
+                  fontStyle: FontStyle.italic),
+            ),
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.1,
+            height: MediaQuery.of(context).size.height * 0.05,
           ),
-          Cart(),
+          CircleAvatar(
+            backgroundImage: NetworkImage(widget.imageUrl),
+            radius: 60,
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          cartData(),
         ],
       ),
     );

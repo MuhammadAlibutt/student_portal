@@ -124,6 +124,15 @@ class _TeacherScheduleState extends State<TeacherSchedule> {
     );
   }
 
+  void _showSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        duration: const Duration(seconds: 2),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -188,7 +197,7 @@ class _TeacherScheduleState extends State<TeacherSchedule> {
               timeAndDay('8-9', 'Morning', 0),
               timeAndDay('9-12', 'Late Morning', 1),
               timeAndDay('12-15', 'Afternoon', 2),
-              timeAndDay('12-18', 'late Afternoon', 3),
+              timeAndDay('15-18', 'late Afternoon', 3),
               timeAndDay('18-21', 'Evening', 4),
               timeAndDay('21-24', 'late Evening', 5),
               timeAndDay('0-3', 'Night', 6),
@@ -233,16 +242,20 @@ class _TeacherScheduleState extends State<TeacherSchedule> {
                   ),
                 ),
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => TeacherPrice(
-                        time: timeselected,
-                        day: day,
-                        sift: sift,
+                  if (selectedDay.isEmpty) {
+                    _showSnackBar('Please Select Time for the class');
+                  } else {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => TeacherPrice(
+                          time: timeselected,
+                          day: day,
+                          sift: sift,
+                        ),
                       ),
-                    ),
-                  );
+                    );
+                  }
                 },
                 child: const Text(
                   'Continue',

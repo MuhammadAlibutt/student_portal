@@ -46,25 +46,6 @@ class _StudentAccountState extends State<StudentAccount> {
     viewValue(uid);
   }
 
-  // void _dialog() {
-  //   showDialog(
-  //     context: context,
-  //     builder: (_) => AlertDialog(
-  //       title: const Text('confirm!'),
-  //       content: const Text("are you Sure!"),
-  //       actions: [
-  //         TextButton(
-  //           onPressed: () {
-  //             updateValue();
-  //             Navigator.of(context).pop();
-  //           },
-  //           child: const Text('Update'),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
-
   void _showSnackBar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(

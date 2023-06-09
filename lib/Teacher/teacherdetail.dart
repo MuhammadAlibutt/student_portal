@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -22,14 +23,18 @@ class _TeacherDetailState extends State<TeacherDetail> {
   final TextEditingController _course = TextEditingController();
   final TextEditingController _dec = TextEditingController();
   final TextEditingController _price = TextEditingController();
+  final TextEditingController tutorName = TextEditingController();
   String cousre = '';
   String description = '';
   String price = '';
-  final courseName = FlutterSecureStorage();
-  final courseTitle = FlutterSecureStorage();
-  final courseDescription = FlutterSecureStorage();
-  final courseImage = FlutterSecureStorage();
+  final courseName = const FlutterSecureStorage();
+  final courseTitle = const FlutterSecureStorage();
+  final courseDescription = const FlutterSecureStorage();
+  final courseImage = const FlutterSecureStorage();
+  final courseTutorName = const FlutterSecureStorage();
+  final imageUrl = const FlutterSecureStorage();
   String _selectCourse = '';
+
   Future<void> chooseimage() async {
     var image;
     image = await ImagePicker().pickImage(
@@ -46,40 +51,43 @@ class _TeacherDetailState extends State<TeacherDetail> {
   void storedata() async {
     String course = _course.text;
     String dec = _dec.text;
+    String tutor = tutorName.text;
+    await courseTutorName.write(key: 'tutor_name', value: tutor);
     await courseTitle.write(key: 'course_title', value: course);
     await courseDescription.write(key: 'course_dec', value: dec);
-    //String? imageUrl = await uploadImage(selectedImage!);
-    // if (imageUrl != null) {
-    //   await FirebaseFirestore.instance.collection('Course').add({
-    //     'course': course,
-    //     'Description': dec,
-    //     'price': price,
-    //     'image': imageUrl,
-    //   }).then((value) {
-    //     _showSnackBar("Course Added Thank you :)");
-    //     _course.clear();
-    //     _dec.clear();
-    //     _price.clear();
-    //     setState(() {
-    //       selectedImage = null;
-    //     });
-    //   });
-    // } else {
-    //   print('false');
-    // }
+
+    //converting the image to bytes
+    // File Image = File(selectedImage ?? '');
+    // ;
+    // List<int> imageByte = await selectedImage!.readAsBytes();
+    // //String base64Image = base64Encode(imageByte);
+    // await imageUrl.write(key: 'image', value: imageByte);
+
+    String? imageUrl = await uploadImage(selectedImage!);
+    if (imageUrl != null) {
+      await FirebaseFirestore.instance.collection('Image_Data').add({
+        'image': imageUrl,
+      }).then((value) {
+        setState(() {
+          selectedImage = null;
+        });
+      });
+    } else {
+      print('false');
+    }
   }
 
-  // Future<String?> uploadImage(File image) async {
-  //   TaskSnapshot taskSnapshot = await FirebaseStorage.instance
-  //       .ref()
-  //       .child('Course_logo')
-  //       .child(image.path.split('/').last)
-  //       .putFile(image);
+  Future<String?> uploadImage(File image) async {
+    TaskSnapshot taskSnapshot = await FirebaseStorage.instance
+        .ref()
+        .child('Course_logo')
+        .child(image.path.split('/').last)
+        .putFile(image);
 
-  //   String downloadUrl = await taskSnapshot.ref.getDownloadURL();
-  //    await courseImage.write(key: 'image', value: downloadUrl);
-  //   return downloadUrl;
-  // }
+    String downloadUrl = await taskSnapshot.ref.getDownloadURL();
+    await courseImage.write(key: 'image', value: downloadUrl);
+    return downloadUrl;
+  }
 
   void _showSnackBar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -119,7 +127,7 @@ class _TeacherDetailState extends State<TeacherDetail> {
             color: Colors.white,
           ),
           onPressed: () {
-            Navigator.pushReplacement(context,
+            Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const TechHome()));
           },
         ),
@@ -194,6 +202,26 @@ class _TeacherDetailState extends State<TeacherDetail> {
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.8,
               child: TextFormField(
+                controller: tutorName,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  labelText: "Tutor Name",
+                  prefixIcon: const Icon(
+                    Icons.school_outlined,
+                    color: Colors.black,
+                  ),
+                  fillColor: Colors.black,
+                ),
+              ),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.03,
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.8,
+              child: TextFormField(
                 controller: _course,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
@@ -237,9 +265,10 @@ class _TeacherDetailState extends State<TeacherDetail> {
                 backgroundColor: ColorTheme.secondarycolor,
               ),
               onPressed: () {
-                if (selectedImage == null &&
-                    _course.text.isEmpty &&
-                    _dec.text.isEmpty) {
+                if (selectedImage == null ||
+                    _course.text.isEmpty ||
+                    _dec.text.isEmpty ||
+                    tutorName.text.isEmpty) {
                   _showSnackBar('Please Complete the Form');
                 } else {
                   storedata();

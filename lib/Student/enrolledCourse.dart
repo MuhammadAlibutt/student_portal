@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../colorscheme.dart';
 import 'coursedetail.dart';
 import 'studenthome.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class EnrolledCourses extends StatefulWidget {
   const EnrolledCourses({super.key});
@@ -11,7 +14,42 @@ class EnrolledCourses extends StatefulWidget {
 }
 
 class _EnrolledCoursesState extends State<EnrolledCourses> {
-  myProject(pic, title, des, star) {
+  late String uid = '';
+  @override
+  void initState() {
+    super.initState();
+    uid = FirebaseAuth.instance.currentUser!.uid;
+    fecthingData(uid);
+  }
+
+  Future<List<Map<String, dynamic>>> fecthingData(String uid) async {
+    List<Map<String, dynamic>> fetchedcourses = [];
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('Student_Enrolled_Courses')
+        .doc(uid)
+        .collection('Enrolled_Courses')
+        .get();
+    if (querySnapshot.docs.isNotEmpty) {
+      querySnapshot.docs.forEach((data) {
+        String TutorName = data['Tutor_Name'];
+        String courseName = data['Course_Name'];
+        String price = data['Course_Price'];
+        String image = data['Course_Image'];
+
+        Map<String, dynamic> course = {
+          'TutorName': TutorName,
+          'courseName': courseName,
+          'image': image,
+          'price': price,
+        };
+
+        fetchedcourses.add(course);
+      });
+    }
+    return fetchedcourses;
+  }
+
+  myProject(pic, name, title, price) {
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.3,
       width: MediaQuery.of(context).size.width * 0.9,
@@ -24,7 +62,7 @@ class _EnrolledCoursesState extends State<EnrolledCourses> {
             Row(
               children: [
                 CircleAvatar(
-                  backgroundImage: AssetImage(pic),
+                  backgroundImage: NetworkImage(pic),
                   radius: 40,
                 ),
                 const SizedBox(
@@ -33,7 +71,7 @@ class _EnrolledCoursesState extends State<EnrolledCourses> {
                 Column(
                   children: [
                     Text(
-                      title,
+                      name,
                       style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -41,7 +79,7 @@ class _EnrolledCoursesState extends State<EnrolledCourses> {
                       ),
                     ),
                     Text(
-                      des,
+                      title,
                       style: const TextStyle(
                         fontSize: 12,
                         color: Colors.white,
@@ -56,23 +94,14 @@ class _EnrolledCoursesState extends State<EnrolledCourses> {
             ),
             Row(
               children: [
-                Text(
-                  star,
-                  style: const TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.w400),
+                const Text(
+                  'Price:  ',
+                  style: TextStyle(color: Colors.white, fontSize: 18),
                 ),
-                IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: ((context) => const TimeTabel())),
-                    );
-                  },
-                  icon: const Icon(
-                    Icons.forward,
-                    color: ColorTheme.accentcolor,
-                  ),
+                Text(
+                  price,
+                  style: const TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
@@ -110,21 +139,34 @@ class _EnrolledCoursesState extends State<EnrolledCourses> {
     return Scaffold(
       backgroundColor: ColorTheme.accentcolor,
       appBar: appbar,
-      body: SingleChildScrollView(
-        child: Container(
-          alignment: Alignment.center,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              myProject(
-                'assets/images/pic.jpg',
-                'Muhammad Ali',
-                'Android Application Tutor',
-                'Time Table',
+      body: FutureBuilder<List<Map<String, dynamic>>>(
+        future: fecthingData(uid),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const CircularProgressIndicator();
+          } else if (snapshot.hasError) {
+            return const Text(
+              'error found',
+              style: TextStyle(fontSize: 20),
+            );
+          } else {
+            print('yes');
+            List<Map<String, dynamic>> fetchedcourses = snapshot.data ?? [];
+            return SingleChildScrollView(
+              child: Center(
+                child: Column(
+                    children: fetchedcourses.map<Widget>((course) {
+                  return myProject(
+                    course['image'],
+                    course['TutorName'],
+                    course['courseName'],
+                    course['price'],
+                  );
+                }).toList()),
               ),
-            ],
-          ),
-        ),
+            );
+          }
+        },
       ),
     );
   }

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:student_portal/Teacher/teacher_schedule.dart';
@@ -6,9 +8,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class TeacherPrice extends StatefulWidget {
-  String time;
-  String sift;
-  String day;
+  final String time;
+  final String sift;
+  final String day;
   TeacherPrice({required this.time, required this.sift, required this.day});
 
   @override
@@ -16,10 +18,12 @@ class TeacherPrice extends StatefulWidget {
 }
 
 class _TeacherPriceState extends State<TeacherPrice> {
-  TextEditingController _controller = TextEditingController();
-  final courseName = FlutterSecureStorage();
-  final courseDescription = FlutterSecureStorage();
-  final courses = FlutterSecureStorage();
+  final TextEditingController _controller = TextEditingController();
+  final courseName = const FlutterSecureStorage();
+  final courseDescription = const FlutterSecureStorage();
+  final courses = const FlutterSecureStorage();
+  final tutorName = const FlutterSecureStorage();
+  final imageUrl = const FlutterSecureStorage();
 
   Future<void> fireBaseData() async {
     try {
@@ -28,7 +32,11 @@ class _TeacherPriceState extends State<TeacherPrice> {
       //description of course
       var description = await courseDescription.read(key: 'course_dec');
       //course name
-      var course_Name = await courses.read(key: 'course_name');
+      // var course_Name = await courses.read(key: 'course_name');
+      //image
+      var image = await imageUrl.read(key: 'image');
+
+      var Tutor_Name = await tutorName.read(key: 'tutor_name');
       String time = widget.time.toString();
       String day = widget.day.toString();
       String sift = widget.sift.toString();
@@ -40,12 +48,14 @@ class _TeacherPriceState extends State<TeacherPrice> {
             .doc(uid)
             .collection('course')
             .add({
+          'Tutor_Name': Tutor_Name,
           'course': course,
           'Course_dec': description,
           'price': price,
           'Class_Day': day,
           'Class_time': time,
-          'Class_Sift': sift
+          'Class_Sift': sift,
+          'Image': image,
         });
 
         _showSnackBar("Course Added. Thank you!");
@@ -66,6 +76,8 @@ class _TeacherPriceState extends State<TeacherPrice> {
       var description = await courseDescription.read(key: 'course_dec');
       //course name
       var course_Name = await courses.read(key: 'course_name');
+      var Tutor_Name = await tutorName.read(key: 'tutor_name');
+      var image = await imageUrl.read(key: 'image');
       String time = widget.time.toString();
       String day = widget.day.toString();
       String sift = widget.sift.toString();
@@ -73,12 +85,14 @@ class _TeacherPriceState extends State<TeacherPrice> {
       if (course != null && description != null && price.isNotEmpty) {
         // String uid = FirebaseAuth.instance.currentUser!.uid;
         await FirebaseFirestore.instance.collection('all_courses').add({
+          'Tutor_Name': Tutor_Name,
           'course': course,
           'Course_dec': description,
           'price': price,
           'Class_Day': day,
           'Class_time': time,
-          'Class_Sift': sift
+          'Class_Sift': sift,
+          'Image': image,
         });
 
         _showSnackBar("Course Added. Thank you!");

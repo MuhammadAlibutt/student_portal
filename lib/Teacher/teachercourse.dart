@@ -27,7 +27,7 @@ class _TechHomeState extends State<TechHome> {
       ),
       const DropdownMenuItem(
         value: 'Desktop Application Development',
-        child: Text('Desktop Applicatione'),
+        child: Text('Desktop Application'),
       ),
       const DropdownMenuItem(
         value: 'Artifical Intelligence',
