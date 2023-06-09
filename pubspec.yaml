@@ -37,17 +37,19 @@ dependencies:
   cupertino_icons: ^1.0.2
   image_picker: ^0.8.7+3
   weather_icons: ^3.0.0
-  intl: ^0.18.1
+  intl: ^0.17.0
   firebase_core: ^2.9.0
   firebase_auth: ^4.4.1
   firebase_storage: ^11.1.0
   cloud_firestore: ^4.5.1
-  zego_uikit_prebuilt_call: ^3.3.18
-  zego_uikit_signaling_plugin: ^2.1.10
+  zego_uikit_prebuilt_call: ^3.5.0  
+  zego_uikit_signaling_plugin: ^2.1.9
   uuid: ^3.0.7
   permission_handler: ^10.2.0
-  flutter_secure_storage: ^8.0.0
-  
+  get: ^4.6.5
+  velocity_x: ^3.4.0
+  flutter_stripe: ^9.2.1
+  http: ^0.13.5
 
 dev_dependencies:
   flutter_test:
@@ -77,6 +79,7 @@ flutter:
     - assets/images/pic.jpg
     - assets/images/notification.jpg
     - assets/images/logo.jpg
+    - assets/images/
     
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

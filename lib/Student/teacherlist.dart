@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:student_portal/Student/Payment/payment_controller.dart';
 import 'teachercart.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -114,6 +115,8 @@ class _TeacherListState extends State<TeacherList> {
                       color: Colors.white, fontWeight: FontWeight.w400),
                 ),
                 TextButton(
+                    // onPressed: () => paymentController.makePayment(
+                    //     amount: '1500', currency: 'PK'),
                     onPressed: () {
                       Navigator.push(
                         context,
