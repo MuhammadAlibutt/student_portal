@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:student_portal/colorscheme.dart';
 import 'StudentLogin.dart';
 import 'package:image_picker/image_picker.dart';
@@ -19,12 +20,15 @@ class _LoginState extends State<Login> {
   final TextEditingController _password = TextEditingController();
   final TextEditingController _name = TextEditingController();
   final TextEditingController _username = TextEditingController();
+  final studentName = const FlutterSecureStorage();
 
   void handlesignUp() async {
     String name = _name.text;
     String email = _email.text;
     String password = _password.text;
     String userName = _username.text;
+    studentName.write(key: 'studentName', value: userName);
+
     if (name.isEmpty ||
         email.isEmpty ||
         password.isEmpty ||

@@ -2,10 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import './teclogin.dart';
 import '../colorscheme.dart';
-import 'dart:io';
-// import 'package:file_picker/file_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 
 class TeacherSignUp extends StatefulWidget {
   const TeacherSignUp({super.key});
@@ -172,49 +169,20 @@ class _TeacherSignUpState extends State<TeacherSignUp> {
                       width: MediaQuery.of(context).size.width * 0.5,
                       child: ElevatedButton(
                         onPressed: () async {
-                          // final result = await FilePicker.platform.pickFiles();
-                          // if (result == null) return;
-
-                          // final filePath = result.files.single.path;
-                          // final file = File(filePath!);
-
-                          // try {
-                          //   // Upload the file to Firebase Cloud Storage
-                          //   final storageRef = FirebaseStorage.instance
-                          //       .ref()
-                          //       .child('files')
-                          //       .child(result.files.single.name);
-                          //   final uploadTask = storageRef.putFile(file);
-                          //   final storageSnapshot = await uploadTask;
-                          //   final downloadURL =
-                          //       await storageSnapshot.ref.getDownloadURL();
-
-                          // Get the currently logged-in user
                           final currentUser = FirebaseAuth.instance.currentUser;
                           if (currentUser == null) {
                             print('No user logged in');
                             return;
                           }
-
-                          // Create a new document reference in the 'TeachersData' collection
                           final teacherDocRef = FirebaseFirestore.instance
                               .collection('TeachersData')
                               .doc(currentUser.uid);
-
-                          // Set the data for the teacher document
                           await teacherDocRef.set({
                             'name': _nameController.text,
                             'email': _emailController.text,
                             'password': _passwordController.text,
                             'phonenumber': _phoneController.text,
-                            // 'fileURL': downloadURL,
                           });
-
-                          //   print(
-                          //       'File uploaded to Firebase Cloud Storage and URL saved to Firestore successfully');
-                          // } catch (error) {
-                          //   print('Error uploading file or saving URL: $error');
-                          // }
                         },
                         child: const Text(
                           'Select a file',
@@ -237,17 +205,6 @@ class _TeacherSignUpState extends State<TeacherSignUp> {
                                 password: _passwordController.text)
                             .then((value) {
                           _saveUserData();
-                          // FirebaseFirestore.instance
-                          //     .collection('TeachersData')
-                          //     .doc(value.user!.uid)
-                          //     .set(
-                          //   {
-                          //     "email": value.user!.email,
-                          //     "password": value.user!.password,
-                          //     "name": value.user!.displayName,
-                          //     "phoneNumber": value.user!.phoneNumber
-                          //   },
-                          // );
                           Navigator.push(
                             context,
                             MaterialPageRoute(

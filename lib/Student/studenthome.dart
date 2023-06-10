@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:student_portal/colorscheme.dart';
 import 'package:student_portal/home.dart';
+import '../chat module/chatmodule.dart';
 import 'teacherlist.dart';
 import 'enrolledCourse.dart';
 import 'category.dart';
@@ -100,10 +101,10 @@ class _StudentHomeState extends State<StudentHome> {
                   value: 5,
                   child: TextButton(
                     onPressed: () {
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) => const Chat()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Chat()));
                     },
                     child: const Text(
                       'Chat',

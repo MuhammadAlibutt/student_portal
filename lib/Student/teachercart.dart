@@ -1,15 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:student_portal/Student/studenthome.dart';
 import '../colorscheme.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class Cart extends StatefulWidget {
   final String courseName;
   final String tutorName;
   final String price;
   final String imageUrl;
+
   const Cart(
       {super.key,
       required this.courseName,
@@ -22,11 +24,17 @@ class Cart extends StatefulWidget {
 }
 
 class _CartState extends State<Cart> {
+  final student_Name = const FlutterSecureStorage();
+  final tutorName = const FlutterSecureStorage();
   Future<void> saveDataInFireStore() async {
     String courseTitle = widget.courseName;
     String courseTutorName = widget.tutorName;
     String coursePrice = widget.price;
     String courseImage = widget.imageUrl;
+
+    tutorName.write(key: 'Tutor_Name', value: courseTutorName);
+
+    print('teacher name1 : $courseTutorName');
 
     String uid = FirebaseAuth.instance.currentUser!.uid;
     await FirebaseFirestore.instance
@@ -35,6 +43,30 @@ class _CartState extends State<Cart> {
         .collection('Enrolled_Courses')
         .add({
       "Tutor_Name": courseTutorName,
+      "Course_Name": courseTitle,
+      "Course_Price": coursePrice,
+      "Course_Image": courseImage,
+    });
+    _showSnackBar('Transaction Successful');
+  }
+
+  Future<void> newCollectionOfEnrolledCourses() async {
+    String courseTitle = widget.courseName;
+    String courseTutorName = widget.tutorName;
+    String coursePrice = widget.price;
+    String courseImage = widget.imageUrl;
+
+    tutorName.write(key: 'Tutor_Name', value: courseTutorName);
+    String? studentName = await student_Name.read(key: 'studentName');
+    print('teacher name1 : $courseTutorName');
+
+    // String uid = FirebaseAuth.instance.currentUser!.uid;
+    await FirebaseFirestore.instance
+        .collection('Course_Enrolled_By_Student')
+        .doc(courseTutorName)
+        .collection('Enrolled_Courses')
+        .add({
+      "Student_Name": studentName,
       "Course_Name": courseTitle,
       "Course_Price": coursePrice,
       "Course_Image": courseImage,
@@ -142,6 +174,7 @@ class _CartState extends State<Cart> {
           ),
           ElevatedButton(
               onPressed: () {
+                newCollectionOfEnrolledCourses();
                 saveDataInFireStore();
                 Navigator.push(
                     context,

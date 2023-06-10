@@ -4,7 +4,7 @@ import 'package:student_portal/colorscheme.dart';
 import 'package:student_portal/home.dart';
 import 'package:student_portal/Teacher/tecsignup.dart';
 import 'teachercourse.dart';
-import 'package:student_portal/colorscheme.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class TecherSignin extends StatefulWidget {
   const TecherSignin({Key? key}) : super(key: key);
@@ -16,6 +16,7 @@ class TecherSignin extends StatefulWidget {
 class _TecherSigninState extends State<TecherSignin> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
+  final teacherName = const FlutterSecureStorage();
 
   void _showSnackBar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(

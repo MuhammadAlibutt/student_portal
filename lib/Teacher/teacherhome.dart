@@ -18,6 +18,7 @@ class TeacherHome extends StatefulWidget {
 class _TeacherHomeState extends State<TeacherHome> {
   final coureTitle = const FlutterSecureStorage();
   late String uid;
+  final tutorName = const FlutterSecureStorage();
 
   @override
   void initState() {
@@ -27,10 +28,11 @@ class _TeacherHomeState extends State<TeacherHome> {
   }
 
   Future<List<Map<String, dynamic>>> viewValue(String uid) async {
+    var Tutor_Name = await tutorName.read(key: 'tutor_name');
     try {
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance
           .collection('Course_added')
-          .doc(uid)
+          .doc(Tutor_Name)
           .collection('course')
           .get();
       if (querySnapshot.docs.isNotEmpty) {

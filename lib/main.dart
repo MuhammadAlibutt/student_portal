@@ -1,12 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_stripe/flutter_stripe.dart';
+//import 'package:flutter_stripe/flutter_stripe.dart';
 import 'home.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  Stripe.publishableKey =
-      'pk_test_51NFytCCJVZzgjMoPZicLmP9XAvhxE4QPBFrFLbt5lHF4ZqRvU45RLPUYUqPfkNeH7zhA0tSrbVmR0HBcLOJmYpef001fQgYBhC';
+  // Stripe.publishableKey =
+  //     'pk_test_51NFytCCJVZzgjMoPZicLmP9XAvhxE4QPBFrFLbt5lHF4ZqRvU45RLPUYUqPfkNeH7zhA0tSrbVmR0HBcLOJmYpef001fQgYBhC';
   Firebase.initializeApp();
   runApp(const Portal());
 }

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../colorscheme.dart';
 import 'coursedetail.dart';
 import 'studenthome.dart';
@@ -15,14 +16,19 @@ class EnrolledCourses extends StatefulWidget {
 
 class _EnrolledCoursesState extends State<EnrolledCourses> {
   late String uid = '';
+  // final Tutor_Name = const FlutterSecureStorage();
+  // String tutornamefromsecurestorage = '';
   @override
   void initState() {
     super.initState();
     uid = FirebaseAuth.instance.currentUser!.uid;
+    // print('teacher name 2: $tutornamefromsecurestorage');
     fecthingData(uid);
   }
 
   Future<List<Map<String, dynamic>>> fecthingData(String uid) async {
+    // String? tutornamefromsecurestorage =
+    //     await Tutor_Name.read(key: 'tutor_name');
     List<Map<String, dynamic>> fetchedcourses = [];
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('Student_Enrolled_Courses')

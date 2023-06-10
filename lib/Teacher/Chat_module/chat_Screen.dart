@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:student_portal/Teacher/Chat_module/ChatPage.dart';
 
 class Chat extends StatefulWidget {
@@ -9,15 +10,20 @@ class Chat extends StatefulWidget {
 }
 
 class _ChatState extends State<Chat> {
+  final teacher = const FlutterSecureStorage();
+
   design(String name, String description) {
     return Padding(
       padding: const EdgeInsets.all(6.0),
       child: GestureDetector(
-        onTap: () {
+        onTap: () async {
+          String? studentname = await teacher.read(key: 'tutor_name');
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const TeacherChatPage(),
+              builder: (context) => chatpage(
+                email: studentname!,
+              ),
             ),
           );
         },

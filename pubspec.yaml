@@ -48,8 +48,7 @@ dependencies:
   permission_handler: ^10.2.0
   get: ^4.6.5
   velocity_x: ^3.4.0
-  flutter_stripe: ^9.2.1
-  http: ^0.13.5
+  flutter_secure_storage: ^8.0.0
 
 dev_dependencies:
   flutter_test:
