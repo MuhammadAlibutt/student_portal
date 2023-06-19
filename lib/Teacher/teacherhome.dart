@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:student_portal/Teacher/teachercourse.dart';
@@ -18,7 +15,6 @@ class TeacherHome extends StatefulWidget {
 class _TeacherHomeState extends State<TeacherHome> {
   final coureTitle = const FlutterSecureStorage();
   late String uid;
-  final tutorName = const FlutterSecureStorage();
 
   @override
   void initState() {
@@ -28,31 +24,30 @@ class _TeacherHomeState extends State<TeacherHome> {
   }
 
   Future<List<Map<String, dynamic>>> viewValue(String uid) async {
-    var Tutor_Name = await tutorName.read(key: 'tutor_name');
     try {
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance
           .collection('Course_added')
-          .doc(Tutor_Name)
+          .doc(uid)
           .collection('course')
           .get();
       if (querySnapshot.docs.isNotEmpty) {
         List<Map<String, dynamic>> courseData = [];
         querySnapshot.docs.forEach((data) {
-          String TutorName = data['Tutor_Name'];
-          String courseName = data['course'];
-          String dec = data['Course_dec'];
-          String price = data['price'];
-          String classDay = data['Class_Day'];
-          String classTime = data['Class_time'];
-          String imageUrl = data['Image'];
+          String? TutorName = data['Tutor_Name'];
+          String? courseName = data['course'];
+          String? dec = data['Course_dec'];
+          String? price = data['price'];
+          String? classDay = data['Class_Day'];
+          String? classTime = data['Class_time'];
+          String? imageUrl = data['Image'];
 
           Map<String, dynamic> course = {
-            'TutorName': TutorName,
-            'courseName': courseName,
-            'description': dec,
-            'price': price,
-            'timeTable': classDay + (',') + classTime,
-            'Image': imageUrl,
+            'TutorName': TutorName ?? '',
+            'courseName': courseName ?? '',
+            'description': dec ?? '',
+            'price': price ?? '',
+            'timeTable': classDay ?? '' + (',') + classTime!,
+            'Image': imageUrl ?? '',
           };
 
           courseData.add(course);

@@ -3,6 +3,7 @@ import 'package:student_portal/Teacher/Call/utils.dart';
 import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 import 'dart:math' as math;
 
+// ignore: must_be_immutable
 class VoiceCall extends StatelessWidget {
   final callIdTextctrl = TextEditingController();
   VoiceCall({super.key});
@@ -54,6 +55,8 @@ class VoiceCall extends StatelessWidget {
     );
   }
 }
+
+void setState(Function() param0) {}
 
 final String localUserId = math.Random().nextInt(10000).toString();
 

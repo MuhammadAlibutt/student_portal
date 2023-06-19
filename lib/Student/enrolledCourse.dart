@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import '../chat module/chatscreen.dart';
 import '../colorscheme.dart';
 import 'coursedetail.dart';
 import 'studenthome.dart';
@@ -99,15 +100,27 @@ class _EnrolledCoursesState extends State<EnrolledCourses> {
               height: 20,
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  'Price:  ',
-                  style: TextStyle(color: Colors.white, fontSize: 18),
-                ),
                 Text(
-                  price,
-                  style: const TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
+                  'Price: $price ',
+                  style: const TextStyle(color: Colors.white, fontSize: 18),
+                ),
+                IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => chatpage(
+                          email: name,
+                        ),
+                      ),
+                    );
+                  },
+                  icon: const Icon(
+                    Icons.chat,
+                    color: ColorTheme.accentcolor,
+                  ),
                 ),
               ],
             ),

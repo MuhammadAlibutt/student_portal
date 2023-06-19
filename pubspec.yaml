@@ -46,10 +46,14 @@ dependencies:
   zego_uikit_signaling_plugin: ^2.1.9
   uuid: ^3.0.7
   permission_handler: ^10.2.0
+  form_field_validator: ^1.1.0
   get: ^4.6.5
   velocity_x: ^3.4.0
   flutter_secure_storage: ^8.0.0
-
+  flutter_stripe: ^9.2.1
+  cached_network_image: ^3.2.3
+  http: ^0.13.5
+  flutter_rating_bar: ^4.0.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

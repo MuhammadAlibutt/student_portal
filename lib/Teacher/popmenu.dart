@@ -82,24 +82,24 @@ Widget PopupMenu() {
                 ),
               ),
             ),
+            // PopupMenuItem(
+            //   value: 5,
+            //   child: TextButton(
+            //     onPressed: () {
+            //       Navigator.push(
+            //         context,
+            //         MaterialPageRoute(
+            //             builder: (context) => const TeacherAccount()),
+            //       );
+            //     },
+            //     child: const Text(
+            //       'Account',
+            //       style: TextStyle(color: Colors.black),
+            //     ),
+            //   ),
+            // ),
             PopupMenuItem(
               value: 5,
-              child: TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const TeacherAccount()),
-                  );
-                },
-                child: const Text(
-                  'Account',
-                  style: TextStyle(color: Colors.black),
-                ),
-              ),
-            ),
-            PopupMenuItem(
-              value: 6,
               child: TextButton(
                 onPressed: () {},
                 child: const Text(

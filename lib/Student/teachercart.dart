@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:student_portal/Student/studenthome.dart';
 import '../colorscheme.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -24,7 +23,7 @@ class Cart extends StatefulWidget {
 }
 
 class _CartState extends State<Cart> {
-  final student_Name = const FlutterSecureStorage();
+ final student_Name = const FlutterSecureStorage();
   final tutorName = const FlutterSecureStorage();
   Future<void> saveDataInFireStore() async {
     String courseTitle = widget.courseName;

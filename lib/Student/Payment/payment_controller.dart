@@ -1,201 +1,166 @@
-// import 'dart:convert';
-// import 'package:flutter/foundation.dart';
-// import 'package:flutter/material.dart';
-// import 'package:flutter_stripe/flutter_stripe.dart';
-// import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:http/http.dart' as http;
+import 'package:student_portal/colorscheme.dart';
 
-// class HomeScreen extends StatefulWidget {
-//   const HomeScreen({Key? key}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  final String courseName;
+  final String tutorName;
+  final String price;
+  final String imageUrl;
+  const HomeScreen(
+      {Key? key,
+      required this.price,
+      required this.courseName,
+      required this.tutorName,
+      required this.imageUrl})
+      : super(key: key);
 
-//   @override
-//   State<HomeScreen> createState() => _HomeScreenState();
-// }
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
 
-// class _HomeScreenState extends State<HomeScreen> {
-//   Map<String, dynamic>? paymentIntentData;
-//   String money = 10.toString();
+class _HomeScreenState extends State<HomeScreen> {
+  Map<String, dynamic>? paymentIntent;
+  final student_Name = const FlutterSecureStorage();
+  final tutorName = const FlutterSecureStorage();
+  Future<void> saveDataInFireStore() async {
+    String courseTitle = widget.courseName;
+    String courseTutorName = widget.tutorName;
+    String coursePrice = widget.price;
+    String courseImage = widget.imageUrl;
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         backgroundColor: Colors.amber,
-//         title: const Text('PAYMENT METHOD (STRIPE)'),
-//         centerTitle: true,
-//         toolbarHeight: 70,
-//       ),
-//       body: Center(
-//           child: ElevatedButton(
-//         style: ElevatedButton.styleFrom(
-//           backgroundColor: Colors.deepPurple,
-//           minimumSize: const Size(250, 50),
-//           shape: RoundedRectangleBorder(
-//             borderRadius: BorderRadius.circular(30),
-//           ),
-//         ),
-//         child: const Text(
-//           'STRIPE PAYMENT',
-//           style: TextStyle(
-//             fontSize: 20,
-//             fontWeight: FontWeight.bold,
-//           ),
-//         ),
-//         onPressed: () {
-//           makePayment();
-//         },
-//       )),
-//     );
-//   }
+    tutorName.write(key: 'Tutor_Name', value: courseTutorName);
 
-//   payFee() {
-//     try {
-//       //if you want to upload data to any database do it here
-//     } catch (e) {
-//       // exception while uploading data
-//     }
-//   }
+    print('teacher name1 : $courseTutorName');
 
-//   Future<void> makePayment() async {
-//     try {
-//       paymentIntentData = await createPaymentIntent(money, 'USD');
-//       await Stripe.instance
-//           .initPaymentSheet(
-//               paymentSheetParameters: SetupPaymentSheetParameters(
-//                   paymentIntentClientSecret:
-//                       paymentIntentData!['client_secret'],
-//                   style: ThemeMode.light,
-//                   merchantDisplayName: 'ANNIE'))
-//           .then((value) {});
-//       displayPaymentSheet();
-//     } catch (e, s) {
-//       if (kDebugMode) {
-//         print(e);
-//       }
-//     }
-//   }
+    String uid = FirebaseAuth.instance.currentUser!.uid;
+    await FirebaseFirestore.instance
+        .collection('Student_Enrolled_Courses')
+        .doc(uid)
+        .collection('Enrolled_Courses')
+        .add({
+      "Tutor_Name": courseTutorName,
+      "Course_Name": courseTitle,
+      "Course_Price": coursePrice,
+      "Course_Image": courseImage,
+    });
+    // _showSnackBar('Transaction Successful2');
+  }
 
-//   displayPaymentSheet() async {
-//     try {
-//       await Stripe.instance.presentPaymentSheet().then((newValue) {
-//         payFee();
+  Future<void> newCollectionOfEnrolledCourses() async {
+    String courseTitle = widget.courseName;
+    String courseTutorName = widget.tutorName;
+    String coursePrice = widget.price;
+    String courseImage = widget.imageUrl;
 
-//         paymentIntentData = null;
-//       }).onError((error, stackTrace) {
-//         if (kDebugMode) {
-//           print('Exception/DISPLAYPAYMENTSHEET==> $error $stackTrace');
-//         }
-//       });
-//     } on StripeException catch (e) {
-//       if (kDebugMode) {
-//         print(e);
-//       }
-//       // showDialog(
-//       //     context: context,
-//       //     builder: (_) => const AlertDialog(
-//       //       content: Text("Cancelled "),
-//       //     ));
-//     } catch (e) {
-//       if (kDebugMode) {
-//         print('$e');
-//       }
-//     }
-//   }
+    tutorName.write(key: 'Tutor_Name', value: courseTutorName);
+    String? studentName = await student_Name.read(key: 'studentName');
+    print('teacher name1 : $courseTutorName');
 
-//   createPaymentIntent(String amount, String currency) async {
-//     try {
-//       Map<String, dynamic> body = {
-//         'amount': calculateAmount(amount),
-//         'currency': currency,
-//         'payment_method_types[]': 'card'
-//       };
-//       var response = await http.post(
-//           Uri.parse('https://api.stripe.com/v1/payment_intents'),
-//           body: body,
-//           headers: {
-//             'Authorization':
-//                 'Bearer sk_test_51NFytCCJVZzgjMoPtufg0t706YnjGkGkaE5IW7RDSIaAWw0PcNYr71ekAkH8YoaVtWEo4V4wh2oCRP0qZXQiosQl00Ktve93pe',
-//             'Content-Type': 'application/x-www-form-urlencoded'
-//           });
-//       return jsonDecode(response.body);
-//     } catch (err) {
-//       if (kDebugMode) {
-//         print('err charging user: ${err.toString()}');
-//       }
-//     }
-//   }
+    // String uid = FirebaseAuth.instance.currentUser!.uid;
+    await FirebaseFirestore.instance
+        .collection('Course_Enrolled_By_Student')
+        .doc(courseTutorName)
+        .collection('Enrolled_Courses')
+        .add({
+      "Student_Name": studentName,
+      "Course_Name": courseTitle,
+      "Course_Price": coursePrice,
+      "Course_Image": courseImage,
+    });
+    // _showSnackBar('Transaction Successful');
+  }
 
-//   calculateAmount(String amount) {
-//     final a = (int.parse(amount)) * 100;
-//     return a.toString();
-//   }
-// }
-// //   Future<void> makePayment(
-// //       {required String amount, required String currency}) async {
-// //     try {
-// //       paymentIntentData = await createPaymentIntent(amount, currency);
-// //       if (paymentIntentData != null) {
-// //         print('successs');
-// //         await Stripe.instance.initPaymentSheet(
-// //             paymentSheetParameters: SetupPaymentSheetParameters(
-// //           // applePay: const PaymentSheetApplePay(merchantCountryCode: 'US'),
-// //           googlePay: const PaymentSheetGooglePay(
-// //               merchantCountryCode: 'US', testEnv: true),
-// //           merchantDisplayName: 'Prospects',
-// //           customerId: paymentIntentData!['customer'],
-// //           paymentIntentClientSecret: paymentIntentData!['client_secret'],
-// //           customerEphemeralKeySecret: paymentIntentData!['ephemeralKey'],
-// //         ));
-// //         displayPaymentSheet();
-// //       }
-// //     } catch (e, s) {
-// //       print('exception:$e$s');
-// //     }
-// //   }
+  void _showSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        duration: const Duration(seconds: 2),
+      ),
+    );
+  }
 
-// //   displayPaymentSheet() async {
-// //     try {
-// //       await Stripe.instance.presentPaymentSheet();
-// //       Get.snackbar('Payment', 'Payment Successful',
-// //           snackPosition: SnackPosition.BOTTOM,
-// //           backgroundColor: Colors.green,
-// //           colorText: Colors.white,
-// //           margin: const EdgeInsets.all(10),
-// //           duration: const Duration(seconds: 2));
-// //     } on Exception catch (e) {
-// //       if (e is StripeException) {
-// //         print("Error from Stripe: ${e.error.localizedMessage}");
-// //       } else {
-// //         print("Unforeseen error: ${e}");
-// //       }
-// //     } catch (e) {
-// //       print("exception:$e");
-// //     }
-// //   }
+  void makePayment() async {
+    try {
+      paymentIntent = await createPaymentIntent();
+      var gpay = const PaymentSheetGooglePay(
+        merchantCountryCode: 'PKR',
+        currencyCode: "PKR",
+        testEnv: true,
+      );
+      await Stripe.instance.initPaymentSheet(
+          paymentSheetParameters: SetupPaymentSheetParameters(
+        paymentIntentClientSecret: paymentIntent!["client_secret"],
+        style: ThemeMode.light,
+        merchantDisplayName: "Test",
+        googlePay: gpay,
+      ));
+      dislayPaymentSheet();
+    } catch (e) {}
+  }
 
-// //   //  Future<Map<String, dynamic>>
-// //   createPaymentIntent(String amount, String currency) async {
-// //     try {
-// //       Map<String, dynamic> body = {
-// //         'amount': calculateAmount(amount),
-// //         'currency': currency,
-// //         'payment_method_types[]': 'card'
-// //       };
-// //       var response = await http.post(
-// //           Uri.parse('https://api.stripe.com/v1/payment_intents'),
-// //           body: body,
-// //           headers: {
-// //             'Authorization':
-// //                 'Bearer sk_test_51NFytCCJVZzgjMoPtufg0t706YnjGkGkaE5IW7RDSIaAWw0PcNYr71ekAkH8YoaVtWEo4V4wh2oCRP0qZXQiosQl00Ktve93pe',
-// //             'Content-Type': 'application/x-www-form-urlencoded'
-// //           });
-// //       return jsonDecode(response.body);
-// //     } catch (err) {
-// //       print('err charging user: ${err.toString()}');
-// //     }
-// //   }
+  void dislayPaymentSheet() async {
+    try {
+      await Stripe.instance.presentPaymentSheet();
+      print("Done");
+    } catch (e) {
+      print("Failed");
+    }
+  }
 
-// //   calculateAmount(String amount) {
-// //     final a = (int.parse(amount)) * 100;
-// //     return a.toString();
-// //   }
-// // }
+  createPaymentIntent() async {
+    try {
+      Map<String, dynamic> body = {"amount": widget.price, "currency": "PKR"};
+      http.Response response = await http.post(
+          Uri.parse("https://api.stripe.com/v1/payment_intents"),
+          body: body,
+          headers: {
+            'Authorization':
+                'Bearer sk_test_51NFytCCJVZzgjMoPtufg0t706YnjGkGkaE5IW7RDSIaAWw0PcNYr71ekAkH8YoaVtWEo4V4wh2oCRP0qZXQiosQl00Ktve93pe',
+            'Content-Type': 'application/x-www-form-urlencoded',
+          });
+      return json.decode(response.body);
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: ColorTheme.appcolor,
+        title: const Text('Amount to Pay'),
+        centerTitle: true,
+        toolbarHeight: 70,
+      ),
+      body: Center(
+          child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: ColorTheme.appcolor,
+          minimumSize: const Size(250, 50),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+        ),
+        child: const Text(
+          'Pay Here !',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        onPressed: () {
+          makePayment();
+          newCollectionOfEnrolledCourses();
+          saveDataInFireStore();
+        },
+      )),
+    );
+  }
+}

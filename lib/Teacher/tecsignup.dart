@@ -165,33 +165,6 @@ class _TeacherSignUpState extends State<TeacherSignUp> {
                     const SizedBox(
                       height: 20,
                     ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.5,
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          final currentUser = FirebaseAuth.instance.currentUser;
-                          if (currentUser == null) {
-                            print('No user logged in');
-                            return;
-                          }
-                          final teacherDocRef = FirebaseFirestore.instance
-                              .collection('TeachersData')
-                              .doc(currentUser.uid);
-                          await teacherDocRef.set({
-                            'name': _nameController.text,
-                            'email': _emailController.text,
-                            'password': _passwordController.text,
-                            'phonenumber': _phoneController.text,
-                          });
-                        },
-                        child: const Text(
-                          'Select a file',
-                          style: TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                      ),
-                    ),
                     const SizedBox(
                       height: 10,
                     ),
