@@ -42,10 +42,10 @@ class _TeacherPriceState extends State<TeacherPrice> {
       String sift = widget.sift.toString();
       String price = _controller.text;
       if (course != null && description != null && price.isNotEmpty) {
-        //String uid = FirebaseAuth.instance.currentUser!.uid;
+        String uid = FirebaseAuth.instance.currentUser!.uid;
         await FirebaseFirestore.instance
             .collection('Course_added')
-            .doc(Tutor_Name)
+            .doc(uid)
             .collection('course')
             .add({
           'Tutor_Name': Tutor_Name,
@@ -83,6 +83,7 @@ class _TeacherPriceState extends State<TeacherPrice> {
       String sift = widget.sift.toString();
       String price = _controller.text;
       if (course != null && description != null && price.isNotEmpty) {
+        print('$image');
         // String uid = FirebaseAuth.instance.currentUser!.uid;
         await FirebaseFirestore.instance.collection('all_courses').add({
           'Tutor_Name': Tutor_Name,

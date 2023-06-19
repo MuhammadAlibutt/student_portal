@@ -175,6 +175,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:student_portal/Teacher/Call/video_call.dart';
+import 'package:student_portal/Teacher/Call/voice_call.dart';
 
 class chatpage extends StatefulWidget {
   String email;
@@ -190,28 +192,38 @@ class _chatpageState extends State<chatpage> {
   final fs = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
   final TextEditingController message = new TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'data',
+          email,
         ),
         actions: [
-          MaterialButton(
+          IconButton(
             onPressed: () {
-              _auth.signOut().whenComplete(() {
-                // Navigator.pushReplacement(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) => Home(),
-                //   ),
-                // );
-              });
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => VoiceCall(),
+                ),
+              );
             },
-            child: Text(
-              "signOut",
+            icon: const Icon(
+              Icons.call,
+            ),
+          ),
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => VideoCall(),
+                ),
+              );
+            },
+            icon: const Icon(
+              Icons.videocam,
             ),
           ),
         ],
@@ -234,18 +246,18 @@ class _chatpageState extends State<chatpage> {
                     controller: message,
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: Colors.purple[100],
-                      hintText: 'message',
+                      fillColor: Colors.grey[400],
+                      hintText: 'Type your message....',
                       enabled: true,
                       contentPadding: const EdgeInsets.only(
                           left: 14.0, bottom: 8.0, top: 8.0),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: new BorderSide(color: Colors.purple),
-                        borderRadius: new BorderRadius.circular(10),
+                        borderSide: const BorderSide(color: Colors.black),
+                        borderRadius: BorderRadius.circular(10),
                       ),
                       enabledBorder: UnderlineInputBorder(
-                        borderSide: new BorderSide(color: Colors.purple),
-                        borderRadius: new BorderRadius.circular(10),
+                        borderSide: const BorderSide(color: Colors.black),
+                        borderRadius: BorderRadius.circular(10),
                       ),
                     ),
                     validator: (value) {},
@@ -262,11 +274,14 @@ class _chatpageState extends State<chatpage> {
                         'time': DateTime.now(),
                         'email': email,
                       });
-
                       message.clear();
                     }
                   },
-                  icon: Icon(Icons.send_sharp),
+                  icon: Icon(
+                    Icons.send_sharp,
+                    color: Colors.green[900],
+                    size: 28,
+                  ),
                 ),
               ],
             ),
@@ -277,18 +292,21 @@ class _chatpageState extends State<chatpage> {
   }
 }
 
+// ignore: camel_case_types, must_be_immutable
 class messages extends StatefulWidget {
   String email;
-  messages({required this.email});
+  messages({super.key, required this.email});
   @override
+  // ignore: library_private_types_in_public_api, no_logic_in_create_state
   _messagesState createState() => _messagesState(email: email);
 }
 
+// ignore: camel_case_types
 class _messagesState extends State<messages> {
   String email;
   _messagesState({required this.email});
 
-  Stream<QuerySnapshot> _messageStream = FirebaseFirestore.instance
+  final Stream<QuerySnapshot> _messageStream = FirebaseFirestore.instance
       .collection('Messages')
       .orderBy('time')
       .snapshots();
@@ -298,17 +316,17 @@ class _messagesState extends State<messages> {
       stream: _messageStream,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
-          return Text("something is wrong");
+          return const Text("something is wrong");
         }
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         }
 
         return ListView.builder(
           itemCount: snapshot.data!.docs.length,
-          physics: ScrollPhysics(),
+          physics: const ScrollPhysics(),
           shrinkWrap: true,
           primary: true,
           itemBuilder: (_, index) {
@@ -327,26 +345,26 @@ class _messagesState extends State<messages> {
                     width: 300,
                     child: ListTile(
                       shape: RoundedRectangleBorder(
-                        side: BorderSide(
-                          color: Colors.purple,
+                        side: const BorderSide(
+                          color: Colors.blue,
                         ),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       title: Text(
                         qs['email'],
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 15,
                         ),
                       ),
                       subtitle: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
+                          SizedBox(
                             width: 200,
                             child: Text(
                               qs['message'],
                               softWrap: true,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 15,
                               ),
                             ),

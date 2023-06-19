@@ -160,14 +160,14 @@ class _TeacherDetailState extends State<TeacherDetail> {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: ColorTheme.secondarycolor,
+                backgroundColor: ColorTheme.appcolor,
               ),
               onPressed: () {
                 chooseimage();
               },
               child: const Text(
                 'Select Profile',
-                style: TextStyle(color: ColorTheme.primarycolor),
+                style: TextStyle(color: ColorTheme.accentcolor),
               ),
             ),
             SizedBox(
@@ -262,7 +262,7 @@ class _TeacherDetailState extends State<TeacherDetail> {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: ColorTheme.secondarycolor,
+                backgroundColor: ColorTheme.appcolor,
               ),
               onPressed: () {
                 if (selectedImage == null ||
@@ -282,7 +282,7 @@ class _TeacherDetailState extends State<TeacherDetail> {
               },
               child: const Text(
                 'Continue to the next',
-                style: TextStyle(color: ColorTheme.primarycolor),
+                style: TextStyle(color: ColorTheme.accentcolor),
               ),
             ),
           ],

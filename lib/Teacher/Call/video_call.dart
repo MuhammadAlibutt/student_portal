@@ -58,7 +58,9 @@ class VideoCall extends StatelessWidget {
 final String localUserId = math.Random().nextInt(10000).toString();
 
 class VideoCallPage extends StatefulWidget {
-  VideoCallPage({super.key, required this.CallId});
+  // ignore: non_constant_identifier_names
+  const VideoCallPage({super.key, required this.CallId});
+  // ignore: non_constant_identifier_names
   final String CallId;
 
   @override

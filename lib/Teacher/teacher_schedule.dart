@@ -171,10 +171,10 @@ class _TeacherScheduleState extends State<TeacherSchedule> {
           const SizedBox(
             height: 10,
           ),
-          const Padding(
-            padding: EdgeInsets.only(top: 18, left: 15),
+          Padding(
+            padding: const EdgeInsets.only(top: 18, left: 15),
             child: Row(
-              children: [
+              children: const [
                 Text(
                   'Please Choose Time',
                   style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),

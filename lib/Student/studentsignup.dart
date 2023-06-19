@@ -116,7 +116,7 @@ class _LoginState extends State<Login> {
                   ? const AssetImage('assets/images/pic.jpg') as ImageProvider
                   : FileImage(_imgFile!),
               child: Stack(
-                children: [
+                children: const [
                   Positioned(
                       bottom: 5,
                       right: 1,
@@ -207,14 +207,14 @@ class _LoginState extends State<Login> {
             height: 15,
           ),
           ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                backgroundColor: ColorTheme.secondarycolor),
+            style:
+                ElevatedButton.styleFrom(backgroundColor: ColorTheme.appcolor),
             onPressed: () {
               handlesignUp();
             },
             child: const Text(
               'Sign Up',
-              style: TextStyle(color: ColorTheme.primarycolor),
+              style: TextStyle(color: ColorTheme.accentcolor),
             ),
           ),
         ]),

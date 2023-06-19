@@ -94,7 +94,7 @@ class _AdminSigninState extends State<AdminSignin> {
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: ColorTheme.secondarycolor),
+                      backgroundColor: ColorTheme.appcolor),
                   onPressed: () {
                     final String enteredEmail = _emailController.text.trim();
                     final String enteredPassword =

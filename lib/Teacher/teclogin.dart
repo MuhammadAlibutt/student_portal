@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:student_portal/Teacher/forgot_password.dart';
 import 'package:student_portal/colorscheme.dart';
 import 'package:student_portal/home.dart';
 import 'package:student_portal/Teacher/tecsignup.dart';
@@ -16,6 +17,7 @@ class TecherSignin extends StatefulWidget {
 class _TecherSigninState extends State<TecherSignin> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
+  bool passToggle = true;
   final teacherName = const FlutterSecureStorage();
 
   void _showSnackBar(String message) {
@@ -31,16 +33,16 @@ class _TecherSigninState extends State<TecherSignin> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: ColorTheme.secondarycolor,
+        backgroundColor: ColorTheme.appcolor,
         title: const Text(
           'Welcome Back!',
-          style: TextStyle(color: ColorTheme.primarycolor),
+          style: TextStyle(color: ColorTheme.accentcolor),
         ),
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back,
-            color: ColorTheme.primarycolor,
+            color: ColorTheme.accentcolor,
           ),
           onPressed: () {
             Navigator.push(context,
@@ -90,6 +92,7 @@ class _TecherSigninState extends State<TecherSignin> {
                 ),
                 TextFormField(
                   controller: _password,
+                  obscureText: passToggle,
                   keyboardType: TextInputType.visiblePassword,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
@@ -99,6 +102,15 @@ class _TecherSigninState extends State<TecherSignin> {
                     prefixIcon: const Icon(
                       Icons.lock,
                       color: Colors.black87,
+                    ),
+                    suffix: InkWell(
+                      onTap: () {
+                        setState(() {
+                          passToggle = !passToggle;
+                        });
+                      },
+                      child: Icon(
+                          passToggle ? Icons.visibility : Icons.visibility_off),
                     ),
                   ),
                 ),
@@ -112,7 +124,12 @@ class _TecherSigninState extends State<TecherSignin> {
                     Padding(
                       padding: const EdgeInsets.only(right: 10),
                       child: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const ForgotScreen()));
+                        },
                         child: const Text(
                           'Forget Password',
                           style: TextStyle(
@@ -129,7 +146,7 @@ class _TecherSigninState extends State<TecherSignin> {
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: ColorTheme.secondarycolor),
+                      backgroundColor: ColorTheme.appcolor),
                   onPressed: () {
                     FirebaseAuth.instance
                         .signInWithEmailAndPassword(

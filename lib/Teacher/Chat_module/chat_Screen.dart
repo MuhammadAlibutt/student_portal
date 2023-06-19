@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:student_portal/Teacher/Chat_module/ChatPage.dart';
@@ -10,26 +12,68 @@ class Chat extends StatefulWidget {
 }
 
 class _ChatState extends State<Chat> {
-  final teacher = const FlutterSecureStorage();
+  late String uid = '';
+  @override
+  void initState() {
+    super.initState();
+    uid = FirebaseAuth.instance.currentUser!.uid;
+    // print('teacher name 2: $tutornamefromsecurestorage');
+    fecthingTData();
+  }
 
-  design(String name, String description) {
+  final tutorName = const FlutterSecureStorage();
+
+  Future<List<Map<String, dynamic>>> fecthingTData() async {
+    var Tutor_Name = await tutorName.read(key: 'Tutor_Name');
+
+    // String? tutornamefromsecurestorage =
+    //     await Tutor_Name.read(key: 'tutor_name');
+    List<Map<String, dynamic>> fetchStudentname = [];
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('Course_Enrolled_By_Student')
+        .doc(Tutor_Name)
+        .collection('Enrolled_Courses')
+        .get();
+    if (querySnapshot.docs.isNotEmpty) {
+      querySnapshot.docs.forEach((data) {
+        String? studentName = data['Student_Name'];
+        String? image = data['Course_Image'];
+
+        Map<String, dynamic> course = {
+          'StudentName': studentName ?? '',
+          'Studentimage': image ?? '',
+        };
+
+        fetchStudentname.add(course);
+      });
+    }
+    return fetchStudentname;
+  }
+
+  // final studentName = const FlutterSecureStorage();
+  // final TutorName = const FlutterSecureStorage();
+
+  design(name, pic) {
     return Padding(
       padding: const EdgeInsets.all(6.0),
       child: GestureDetector(
         onTap: () async {
-          String? studentname = await teacher.read(key: 'tutor_name');
+          // ignore: non_constant_identifier_names
+          // String? StdName = await StudentName.read(key: 'Student_Name');
+          // print('teacher name $StdName');
+          // String? name = await studentName.read(key: 'StudentName');
+          // print('$studentName');
+
+          // ignore: use_build_context_synchronously
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => chatpage(
-                email: studentname!,
-              ),
+              builder: (context) => chatpage(email: name),
             ),
           );
         },
         child: Container(
           height: MediaQuery.of(context).size.height * 0.1,
-          // width: MediaQuery.of(context).size.width*,
           decoration: BoxDecoration(
             color: Colors.blue[400],
             borderRadius: BorderRadius.circular(20),
@@ -38,51 +82,26 @@ class _ChatState extends State<Chat> {
             padding: const EdgeInsets.all(8.0),
             child: Row(
               children: [
-                const CircleAvatar(
+                CircleAvatar(
                   radius: 35,
-                  backgroundImage: AssetImage(
-                    'assets/images/pic.jpg',
-                  ),
+                  backgroundImage: pic != null ? NetworkImage(pic) : null,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 13, top: 8),
+                  padding: const EdgeInsets.only(left: 20, top: 20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         name,
                         style: const TextStyle(
-                            fontSize: 15,
+                            fontSize: 18,
                             fontWeight: FontWeight.bold,
                             color: Colors.white),
-                      ),
-                      const SizedBox(
-                        height: 4,
-                      ),
-                      Text(
-                        description,
-                        style: TextStyle(color: Colors.white),
                       ),
                     ],
                   ),
                 ),
                 const Spacer(),
-                Padding(
-                  padding: const EdgeInsets.only(right: 15),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Text(
-                        "12:15",
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
               ],
             ),
           ),
@@ -96,17 +115,36 @@ class _ChatState extends State<Chat> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
-        title: const Text('Text your Tutor',
+        title: const Text('Text your Student',
             style: TextStyle(fontStyle: FontStyle.italic)),
         centerTitle: true,
       ),
-      body: ListView(
-        children: [
-          design('Ali ', "Flutter Developer"),
-          design('Ashar', 'Flutter Developer'),
-          design('Sheraz', 'Wela Insan'),
-          design('Usman Sajid', 'Senior React Js Developer'),
-        ],
+      body: FutureBuilder<List<Map<String, dynamic>>>(
+        future: fecthingTData(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const CircularProgressIndicator();
+          } else if (snapshot.hasError) {
+            return const Text(
+              'error found',
+              style: TextStyle(fontSize: 20),
+            );
+          } else {
+            print('yes');
+            List<Map<String, dynamic>> fetchStudentname = snapshot.data ?? [];
+            return SingleChildScrollView(
+              child: Center(
+                child: Column(
+                    children: fetchStudentname.map<Widget>((course) {
+                  return design(
+                    course['StudentName'],
+                    course['Studentimage'],
+                  );
+                }).toList()),
+              ),
+            );
+          }
+        },
       ),
     );
   }

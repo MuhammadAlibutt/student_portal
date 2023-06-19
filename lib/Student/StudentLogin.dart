@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:student_portal/Teacher/forgot_password.dart';
 import 'studentsignup.dart';
 import 'studenthome.dart';
 import '../colorscheme.dart';
@@ -25,14 +25,14 @@ class _StudentSigninState extends State<StudentSignin> {
       appBar: AppBar(
         title: const Text(
           'Welcome Back!',
-          style: TextStyle(color: ColorTheme.primarycolor),
+          style: TextStyle(color: ColorTheme.accentcolor),
         ),
         centerTitle: true,
-        backgroundColor: ColorTheme.secondarycolor,
+        backgroundColor: ColorTheme.appcolor,
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back,
-            color: ColorTheme.primarycolor,
+            color: ColorTheme.accentcolor,
           ),
           onPressed: () {
             Navigator.pushReplacement(context,
@@ -126,7 +126,12 @@ class _StudentSigninState extends State<StudentSignin> {
                   Padding(
                     padding: const EdgeInsets.only(right: 30),
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const ForgotScreen()));
+                      },
                       child: const Text(
                         'Forget Password',
                         style: TextStyle(
@@ -142,7 +147,7 @@ class _StudentSigninState extends State<StudentSignin> {
                 width: MediaQuery.of(context).size.width * 0.3,
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: ColorTheme.secondarycolor),
+                        backgroundColor: ColorTheme.appcolor),
                     onPressed: () {
                       FirebaseAuth.instance
                           .signInWithEmailAndPassword(

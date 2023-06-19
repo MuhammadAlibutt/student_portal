@@ -133,7 +133,7 @@ class _StudentHomeState extends State<StudentHome> {
     );
     return Scaffold(
       appBar: appbar,
-      body: Container(
+      body: SizedBox(
         height: MediaQuery.of(context).size.height,
         child: SingleChildScrollView(
           child: Column(
@@ -148,7 +148,7 @@ class _StudentHomeState extends State<StudentHome> {
                 width: double.infinity,
                 height: MediaQuery.of(context).size.height * 0.5,
                 decoration: const BoxDecoration(
-                  color: ColorTheme.secondarycolor,
+                  color: ColorTheme.appcolor,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(25),
                     topRight: Radius.circular(25),
@@ -164,7 +164,7 @@ class _StudentHomeState extends State<StudentHome> {
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: ColorTheme.primarycolor,
+                        color: ColorTheme.accentcolor,
                         // fontStyle: FontStyle.italic,
                       ),
                     ),

@@ -56,10 +56,10 @@ class _TechHomeState extends State<TechHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: ColorTheme.secondarycolor,
+        backgroundColor: ColorTheme.appcolor,
         title: const Text(
           'Welcome',
-          style: TextStyle(color: ColorTheme.primarycolor),
+          style: TextStyle(color: ColorTheme.accentcolor),
         ),
         centerTitle: true,
         leading: PopupMenu(),
@@ -108,7 +108,7 @@ class _TechHomeState extends State<TechHome> {
                     height: MediaQuery.of(context).size.height * 0.08,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
+                        backgroundColor: Colors.blue,
                         shadowColor: Colors.black,
                         elevation: 10,
                         shape: RoundedRectangleBorder(
@@ -118,6 +118,7 @@ class _TechHomeState extends State<TechHome> {
                       onPressed: () async {
                         await courseSelectedStorage.write(
                             key: 'course_name', value: selectedCourse);
+                        // ignore: use_build_context_synchronously
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -129,7 +130,7 @@ class _TechHomeState extends State<TechHome> {
                         'Get Started!',
                         style: TextStyle(
                             fontSize: 22,
-                            color: Colors.black,
+                            color: Colors.white,
                             fontStyle: FontStyle.italic,
                             fontWeight: FontWeight.w600),
                       ),
